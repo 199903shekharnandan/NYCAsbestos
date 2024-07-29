@@ -1,0 +1,88 @@
+<div class="user-dashboard my-4">
+    <div class="container-fluid">
+      <div class="userdash-board-home">
+        <div class="row">
+          <div class="col-sm-5 left-side-image">
+          <div class="overlay"></div>
+            <div class="logo-application-request-section" id="logo" >
+              <div class="logo-image text-center my-4">
+                <img src='../assets/img/logo.png' />
+              </div>
+
+              <div class="top-tile-strip my-4" *ngIf="startPnl" >
+                <div class="row ">
+                    <form #certificateForm = "ngForm" (ngSubmit)="startApplication()">
+                        <div class="col-sm-12">
+                            <div class="cerfiticate-form me-3 ">
+                                <div class="form-group ">
+                                    <label class="form-label me-2" htmlFor=""> Certificate </label>
+                                    <select name="cert"  class="form-select cerfiticate-form" [(ngModel)]="ddlCertificate" required>
+                                        <option value="" hidden selected>Select Certificate</option>
+                                        <option *ngFor="let item of  CertificateTypes" [ngValue]="item.value">{{item.value}}</option>
+                                    </select>
+
+                                </div>
+                             <div class="my-4"> <label class="form-label me-2" htmlFor=""> Application Type </label>
+                                <div class="form-group d-flex">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="apptype" id="apptype1" value="Initial" [(ngModel)]="appType" required>
+                                    <label class="form-check-label" for="apptype1">
+                                        Initial
+                                    </label>
+                                  </div>
+                                  <div class="form-check" style="margin-left: 10px;">
+                                    <input class="form-check-input" type="radio" name="apptype" id="apptype2" value="Renewal" [(ngModel)]="appType" required>
+                                    <label class="form-check-label" for="apptype2">
+                                        Renewal
+                                    </label>
+                                  </div>
+                                  <div class="form-check" style="margin-left: 10px;">
+                                    <input class="form-check-input" type="radio" name="apptype" id="apptype3" value="Duplicate" [(ngModel)]="appType" required>
+                                    <label class="form-check-label" for="apptype3">
+                                        Duplicate
+                                    </label>
+                                  </div>
+                             </div>
+                            </div>
+
+                            </div>
+                            <div class="col-sm-12 my-4 text-center">
+                                <button class="btn btn-primary" [disabled]="!certificateForm.valid">Start your application</button>
+                            </div>
+                            <div class="homepage-validation-msg alert alert-danger" *ngIf="this.validationMsg">{{this.validationMsg}}</div>
+
+                        </div>
+                    </form>
+                </div>
+              </div>
+
+
+
+           </div>
+          </div>
+          <div class="col-sm-7">
+            <div class="dashboard-home-text">
+              <h2 class='text-primary'>Welcome to NYC !</h2>
+              <p class='my-3'> The New York City Department of Environmental Protection (DEP) is the department of the government of New York City that manages the city's water supply and works to reduce air, noise, and hazardous materials pollution. Despite significant improvements in recent years, air pollution in New York City is still a significant environmental threat. Improving air quality is a difficult task because there are many types of air pollutants that can come from millions of sources, inside and outside city boundaries.</p>
+              <p> Along with air quality initiatives by other City agencies, NYC-DEP is responsible for updating and enforcing the Air Pollution Control Code (Air Code) which has the goal to preserve, protect and improve the air resources of New York City. </p>
+              <div class='fw-bold fs-16'>Contact Information</div>
+
+              <div class="address my-2 row">
+                <div class='fw-bold col-sm-2'> Address -</div>
+                <div class="col-sm-10">Asbestos Control Program: TCU<br />
+                  59-17 Junction Blvd, 8th Floor<br />
+                  Flushing, NY 11373.</div>
+                <div class='fw-bold col-sm-2'> Phone -</div>
+                <div class='col-sm-10'>  (718) 595-3693</div>
+                <div class='fw-bold' style="margin-top: 10px;"> Asbestos Rules & Regulation:</div>
+                <span class=''><a  href="javascript:void(0);" (click)="RulesAndRegulations()" >Asbestos Control Program Asbestos Rules and regulations (nyc.gov)</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+

@@ -1,0 +1,80 @@
+.dropdown-toggle::after {
+    display: none;
+}
+
+.ocse-btn {
+    position: relative !important;
+    bottom: auto;
+ }
+ .exam-trigger-btn {
+  position: relative !important;
+  bottom: auto;
+}
+ .admin-user-dashboard-table .p-input-icon-left{
+    top: 11px !important;
+  }
+ .info-admin i{
+    font-size: 20px;
+ }
+
+.faded-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparentize($color: black, $amount: .2);
+    z-index: 1000 !important;
+}
+.dmv-description::-webkit-scrollbar {
+        display: none;
+    }
+.dmv-description {
+    width: 100% !important;
+    *{font-size: smaller !important;}
+    overflow: scroll;
+    margin-top: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.dmv-description .modal-table{
+    background: #fff;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.dmv-description .modal-table tbody{
+    max-height: 400px;
+    height: 350px;
+    overflow-y: auto;
+}
+.dmv-description .modal-table tr td{
+    border: none;
+    padding: 7px 15px;
+}
+::ng-deep .p-datatable-header{
+    background-color: #fff!important;
+}
+::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    min-width: 83px;
+    padding: 7px 8px;
+}
+.admin-user-dashboard-table tr th,
+.admin-home-table tr th {
+  white-space: pre-line !important;
+}
+
+
+@media only screen and (max-width: 576px) {
+.admin-user-dashboard-table .p-input-icon-left, .p-input-icon-right{
+    top: 0 !important;
+    left: 0px;
+}
+:host::ng-deep .p-paginator-left-content{
+    width: 100% !important;
+}
+
+}

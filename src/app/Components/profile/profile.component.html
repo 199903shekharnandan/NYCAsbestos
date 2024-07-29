@@ -1,0 +1,280 @@
+<!-- Loader -->
+<div class="loader" *ngIf="state.isLoading">
+  <div class="loader-ring"></div>
+  <span class="loader-text-submit">Loading...</span>
+</div>
+<!-- For Applicant and Supervisor and User-->
+<div *ngIf="isApplicantOrSupervisorOrUser && !state.isLoading">
+  <div class="container-fluid">
+    <div class="user-dashboard-profile-page my-3">
+      <div class="profile-section">
+        <div class="row align-items-center">
+          <div class="col-sm-3 profile-img1">
+
+            <img *ngIf="isUserData" alt="" [src]="this.state.Userdata[0].photoLink + this.state.Userdata[0].sasToken"
+              class="rounded-circle" />
+
+            <img *ngIf="!this.isUserData" alt="" src="../../assets/img/default-pic.png" class="rounded-circle" />
+
+          </div>
+
+          <div class="col-sm-9">
+            <div class="profile-details">
+              <div class="name-d-text">
+
+                <span class="d-block text-dark name fw-bold-600 fs-16" *ngIf="this.isUserData"
+                  title="this.state.Userdata[0].applicantFirstName + ' ' + this.state.Userdata[0].applicantMiddleName + ' ' + this.state.Userdata[0].applicantLastName">
+                  {{this.state.Userdata[0].applicantFirstName + " " + this.state.Userdata[0].applicantMiddleName + " " +
+                  this.state.Userdata[0].applicantLastName}}
+                </span>
+                <span class="d-block text-dark name fw-bold-600 fs-16" *ngIf="this.isUserData" title="">
+                </span>
+
+                <span class="d-block department text-secondary-one fw-bold-500">
+                  {{" "}}
+                  {{this.state.CertificateTypes}}
+                </span>
+              </div>
+              <div class="sub-details pt-2">
+                <div class="row my-1">
+                  <div class="text-secondary col-sm-2">
+                    Date of Birth
+                  </div>
+                  <div class="text-dark col-sm-10 fw-bold-500"
+                    *ngIf="this.isUserData && this.state.Userdata[0].applicantDOB">
+                    {{moment(this.state.Userdata[0].applicantDOB).format("MM/DD/YYYY")}}
+                  </div>
+                  <div class="text-dark col-sm-10 fw-bold-500" *ngIf="!this.isUserData">
+                    -
+                  </div>
+                </div>
+                <div class="row my-1">
+                  <div class="text-secondary col-sm-2">
+                    Gender
+                  </div>
+                  <div class="text-dark col-sm-10 fw-bold-500" *ngIf="this.isUserData">
+                    <div *ngIf="this.state.Userdata[0].applicantGender === 'F'">Female</div>
+                    <div *ngIf="this.state.Userdata[0].applicantGender === 'M'">Male</div>
+                    <div
+                      *ngIf="this.state.Userdata[0].applicantGender != 'M' && this.state.Userdata[0].applicantGender != 'F'">
+                      {{this.state.Userdata[0].applicantGender}}</div>
+                  </div>
+                  <div class="text-dark col-sm-10 fw-bold-500" *ngIf="!this.isUserData">-</div>
+                </div>
+                <div class="row my-1">
+                  <div class="text-secondary col-sm-2">
+                    DMV Number
+                  </div>
+                  <div class="text-dark col-sm-10 fw-bold-500"
+                    *ngIf="this.isUserData && this.state.Userdata[0].applicantDMVNumber">
+                    {{"XXXXXX" + this.state.Userdata[0].applicantDMVNumber.substring(5, 9)}}
+                  </div>
+                  <div class="text-dark col-sm-10 fw-bold-500" *ngIf="!this.isUserData">
+                    -
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="personal-additional-information profile-additional-info">
+
+        <div class="personal-information my-3">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <div class="accordion-header" id="headingOne">
+                <div class="row">
+                  <div class="col-sm-12 ">
+                    <button class="header-section accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#personal-information" aria-expanded="true" aria-controls="collapseOne">
+                      <h5>Personal Information</h5>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="personal-information" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                <div class="row mb-3">
+                  <div class="col-sm-2 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      Last Name
+                    </span>
+
+                    <span class="d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantLastName}}
+                    </span>
+                    <span class="d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+
+                  </div>
+                  <div class="col-sm-2 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      First Name
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantFirstName}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+
+                  </div>
+                  <div class="col-sm-2 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      Middle Name
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantMiddleName}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+
+                  </div>
+                  <div class="col-sm-1 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      Email
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500">
+                      {{Constants.userEmail}}
+                    </span>
+                  </div>
+                  <div class="col-sm-1 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      Mobile
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].workTelephoneNumber}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+                  </div>
+                  <div class="col-sm-2 w-28">
+                    <span class="text-secondary d-block text-truncate">
+                      Mailing/ Home Street Address
+                    </span>
+                    <span class="d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantAddress}}
+                    </span>
+                    <span class="d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-2 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      Apt. #
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantApt}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+                  </div>
+                  <div class="col-sm-2 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      City
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantCity}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+                  </div>
+                  <div class="col-sm-2 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      State
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantState}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+                  </div>
+                  <div class="col-sm-1 w-14">
+                    <span class="text-secondary d-block text-truncate">
+                      Zip Code
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="this.isUserData">
+                      {{this.state.Userdata[0].applicantZipCode}}
+                    </span>
+                    <span class=" d-block text-truncate fw-bold-500" *ngIf="!this.isUserData">
+                      -
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- For Admin -->
+<div *ngIf="!isApplicantOrSupervisorOrUser && !state.isLoading" class="user-dashboard-profile-page admin-profile my-3">
+  <div class="profile-section">
+    <div class="row align-items-center">
+      <div class="img-section col-sm-12">
+        <img src="../../assets/img/default-pic.png" class="w-35 m-4 rounded-circle" alt="profile pic" />
+      </div>
+      <div class="col-sm-12">
+        <div class="name-d-text">
+          <span class="d-block text-dark name fw-bold-600 fs-18"
+            *ngIf="this.state.AdminData && this.state.AdminData.length > 0" title="this.state.AdminData[0].name">
+            {{this.state.AdminData[0].name}}
+          </span>
+          <span class="d-block text-dark name fw-bold-600 fs-18"
+            *ngIf="!this.state.AdminData && this.state.AdminData.length < 0" title="">
+            -
+          </span>
+
+          <span class="d-block department text-secondary-one fs-16" *ngIf="this.state.Position">
+            {{this.state.Position}}
+          </span>
+          <span class="d-block department text-secondary-one fs-16" *ngIf="!this.state.Position">
+          </span>
+
+        </div>
+        <div class="col-sm-12 sub-details pt-3 fs-16">
+          <div class="text-secondary">
+            Email Id
+          </div>
+          <div *ngIf="this.state.AdminData && this.state.AdminData.length > 0" class="text-dark fw-bold-500 mb-2">
+            {{this.state.AdminData[0].loginUserEmailId}}
+          </div>
+          <div *ngIf="!this.state.AdminData && this.state.AdminData.length < 0" class="text-dark fw-bold-500 mb-2">
+            -
+          </div>
+
+
+          <div class="col-sm-12">
+            <div class="text-secondary">
+              Telephone Number
+            </div>
+
+            <div *ngIf="this.state.AdminData && this.state.AdminData.length > 0" class="text-dark  fw-bold-500 mb-3">
+              {{this.state.AdminData[0].contactNumber}}
+            </div>
+            <div *ngIf="!this.state.AdminData && this.state.AdminData.length < 0" class="text-dark  fw-bold-500 mb-3">
+              -
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

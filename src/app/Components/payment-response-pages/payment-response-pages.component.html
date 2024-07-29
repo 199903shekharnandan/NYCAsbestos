@@ -1,0 +1,41 @@
+<div *ngIf='(Constants.userEmail && Constants.userName)'>
+	<!-- For Successful Payment -->
+	<div *ngIf="props.status=='successful' || props.status=='Successful'">
+		<div class="payment-details payment-success">
+			<img src="../../../assets/img/successfull-img.png" alt="successful" />
+			<h3>Payment is Successful!</h3>
+			<div class="payment-status">Your payment was successful.<br>Thank you!! </div>
+			<a href="/dashboard">Go To Dashboard</a>
+		</div>
+	</div>
+	<!-- For Unsuccessful Payment -->
+	<div
+		*ngIf="props.status=='Unsuccessful' || props.status=='unsuccessful' || props.status=='failed' || props.status=='Failed'">
+		<div class="payment-details payment-unsuccess">
+			<img src="../../../assets/img/payment-unsuccess.png" alt="unsuccessful" />
+			<h3>Payment is UnSuccessful!</h3>
+			<div class="payment-status">Oops!! <br> Your payment was unsuccessful.</div>
+			<a href="/dashboard">Go To Dashboard</a>
+		</div>
+	</div>
+	<!-- For Canceled Payment -->
+	<div *ngIf="props.status=='cancelled' || props.status=='Cancelled'">
+		<div class="payment-details payment-cancel">
+			<img src="../../../assets/img/payment-cancel.png" alt="cancelled" />
+			<h3>Payment is cancelled!</h3>
+			<div class="payment-status">Oops!! <br>Your payment was cancelled.</div>
+			<a *ngIf="props.applicationType=='Initial'"
+				(click)="showNavBarNavigation(); this.router.navigate(['/application'],{queryParams:{'certificateType':this.props.certificateType,'applicateType':this.props.applicationType, 'id':this.props.reqId,'payment':'cancel'}})">
+				Return To Application Form
+			</a>
+			<a *ngIf="props.applicationType=='Renewal'"
+				(click)="showNavBarNavigation(); this.router.navigate(['/renewalApplication'],{queryParams:{'certificateType':this.props.certificateType,'applicateType':this.props.applicationType, 'id':this.props.reqId,'payment':'cancel'}})">
+				Return To Application Form
+			</a>
+			<a *ngIf="props.applicationType=='Duplicate'"
+				(click)="showNavBarNavigation(); this.router.navigate(['/duplicateApplication'],{queryParams:{'certificateType':this.props.certificateType,'applicateType':this.props.applicationType, 'id':this.props.reqId,'payment':'cancel'}})">
+				Return To Application Form
+			</a>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,86 @@
+
+ <div class="loader" *ngIf="isLoading">
+  <div class="loader-ring"></div>
+    <span class="loader-text-submit">Loading...</span>
+</div>
+<div *ngIf="this.isAdmin==true">
+  <div class="container-fluid">
+    <div class="user-dashboard">
+      <div class="user-dashboard-table admin-user-dashboard-table suspend-table">
+        <div class="mx-3">
+          <p-table [value]="dataObj" #dt1 class="tbladminDashboard" [paginator]="true" [rows]="5"
+          [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[5,10,15]" [responsive]="true"
+          [globalFilterFields]="['applicantFirstName','applicationType','certificateType','issuedOn','status']">
+          <ng-template pTemplate="caption">
+            <div class="p-d-flex w-100 d-flex" style="justify-content: space-between">
+              <h4>Records</h4>
+              <span class="p-input-icon-left p-ml-auto">
+                <div class="input-group">
+                  <span class="input-group-text bg-none" id="basic-addon1"><i class="pi pi-search"></i></span>
+                  <input type="text" class="form-control bg-left" placeholder="Search" (input)="dt1.filterGlobal($any($event.target).value, 'contains')">
+                </div>
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Sno</th>
+              <th pSortableColumn="applicantFirstName">Application Name<p-sortIcon
+                  field="applicantFirstName"></p-sortIcon></th>
+              <th pSortableColumn="applicationType">Application Type <p-sortIcon field="applicationType"></p-sortIcon>
+              </th>
+              <th pSortableColumn="certificateType">Certification Type <p-sortIcon field="certificateType"></p-sortIcon>
+              </th>
+              <th pSortableColumn="issuedOn">Submitted On <p-sortIcon field="issuedOn"></p-sortIcon></th>
+              <th pSortableColumn="status">Application Status <p-sortIcon field="status"></p-sortIcon></th>
+              <th>Action</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data let-i="rowIndex">
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{data.applicantFirstName}} {{data.applicantLastName}}</td>
+              <td>{{data.applicationType}}</td>
+              <td>{{data.certificateType}}</td>
+              <td>{{data.issuedOn | date: "MM/dd/yyyy"}}</td>
+              <td>
+                <span *ngIf="data.status==''" class="statusPending">Not Issued</span>
+                <span *ngIf="data.status=='Issued'" class="statusApprove"> Issued</span>
+                <span *ngIf="data.status=='Suspended'" class="statusRejected"> Suspended</span>
+              </td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle"
+                    style="background-color: transparent;color:#00529B ;border: none;box-shadow: none;" type="button"
+                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-2x fa-ellipsis"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
+                    style="padding: 10px;font-size: 14px;">
+                    <li class="dropdown-li" style="cursor: pointer;" *ngIf="data.status=='Suspended'"
+                      (click)="changeStatus('Remove Suspended',data.reqId)"><span class='d-block text-truncate'>Remove
+                        Suspend</span></li>
+                    <li class="dropdown-li" style="cursor: pointer;" *ngIf="data.status!='Suspended'"
+                      (click)="changeStatus('Suspended',data.reqId)"><span class='d-block text-truncate'>Suspend</span>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="this.isAdmin==false">
+  <div className='page-restrict'>
+    <div className='page-exist'>The page you were looking for does not exist.</div>
+    <div className='restrict-message'>You have mistyped the address or the page may have moved.</div>
+    <a routerLink="/home">Go back to the homepage</a>
+  </div>
+</div>

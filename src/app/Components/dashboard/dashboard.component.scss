@@ -1,0 +1,121 @@
+
+.icon
+{
+  font-size: 10px;
+}
+
+.fa-xmark:before {
+    content: "\f00d";
+}
+
+.close{
+  color: white;
+}
+
+.modal-header{
+  padding: 10px 15px;
+  background-color: #00529B;
+}
+
+.status-approved {
+  padding: 1px 10px;
+  font-size: 10px;
+  background: #D9FAE6;
+  border: 1px solid #0AA347;
+  border-radius: 25px;
+}
+
+.come-from-modal.right .modal-dialog {
+  position:relative;
+  margin: auto;
+  width: 1010px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+
+.come-from-modal.right .modal-content {
+  height: 100%;
+  width: 127%;
+  overflow-y: auto;
+  border-radius: 0px;
+}
+
+.come-from-modal.right .modal-body {
+  padding: 15px 15px 80px;
+}
+
+.come-from-modal.right.fade .modal-dialog {
+  right: -190px;
+  -webkit-transition: opacity 0.2s linear, right 0.2s ease-out;
+  -moz-transition: opacity 0.2s linear, right 0.2s ease-out;
+  -o-transition: opacity 0.2s linear, right 0.2s ease-out;
+  transition: opacity 0.2s linear, right 0.2s ease-out;
+}
+
+.come-from-modal.right.fade.in .modal-dialog {
+  right: 0;
+}
+.status-rejected {
+  padding: 1px 5px;
+  font-size: 10px;
+  background: #FFE2E2;
+  border: 1px solid #F30C0C;
+  border-radius: 25px;
+  color: #F30C0C;
+}
+
+.status-pending {
+  border: 1px solid rgba(255, 153, 52, 1);
+  padding: 1px 5px;
+  border-radius: 15px;
+  font-size: 10px;
+  background: #FFEEDE;
+  color: #FF9934;
+
+}
+
+.status-discarded {
+  border: 1px solid #696969;
+  padding: 1px 5px;
+  border-radius: 15px;
+  font-size: 10px;
+  background: #dbd8d8;
+  color: #2c2727;
+}
+.status-draft {
+  border: 1px solid #ddcb04;
+  padding: 1px 5px;
+  border-radius: 15px;
+  font-size: 10px;
+  background: #f8ef8649;
+  color: #ddcb04;
+}
+
+::ng-deep .p-datatable>.p-datatable-wrapper {
+  padding-bottom:8rem !important
+}
+
+::ng-deep .dashboardTable{
+  white-space: nowrap !important;
+}
+.custom-dashboard-table ::ng-deep.p-datatable .p-datatable-thead > tr > th{
+  /* padding: 0.4rem 1rem !important; */
+  font-size: 12px!important;
+  padding: 7px;
+}
+.p-datatable .p-datatable-tbody > tr > td{
+  color: #000 !important;
+}
+.custom-dashboard-table ::ng-deep.p-datatable .p-datatable-tbody > tr > td{
+  padding: 7px !important;
+  font-size: 12px !important;
+  color: #000 !important;
+}
+.custom-dashboard-table ::ng-deep.p-datatable-table {
+  border-collapse: separate;
+  border-spacing: 0 3px;
+
+}

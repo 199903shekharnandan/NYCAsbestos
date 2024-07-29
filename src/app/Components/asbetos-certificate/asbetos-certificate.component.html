@@ -1,0 +1,62 @@
+<div class="user-dashboard my-4" *ngIf="this.UserRole == 'User' || this.UserRole == 'Supervisor'">
+  <div class="container-fluid">
+      <div class="userdash-board-application-certifications">
+          <div class="row">
+              <div class="col-sm-7 scan-dummy-img img">
+                  <img src="assets/img/img-c.png" width="100%" />
+              </div>
+              <div class="col-sm-5">
+                <span *ngIf="this.asbestosCertificateData.status!='issuance_successful'; else elseStatement">
+                  <div class="header-section text-center my-3 p-4" *ngIf="IsMsg">
+                    <h5 class='text-success fs-18'>{{this.asbestosCertificateData.statusMessage}}</h5>
+                </div>
+                </span>
+                <ng-template #elseStatement>
+                  <div class="header-section text-center my-3 p-4" *ngIf="QrMsg">
+                    <h5 class='text-success fs-18'>{{this.asbestosCertificateData.message}}</h5>
+                </div>
+                </ng-template>
+
+                  <div class="qr-code-scan-section text-center" *ngIf="IsQRCode">
+                      <div class="text-primary qr-updated-information py-3">
+                          <h5>Please scan the below QR Code with Authenticator App, to accept the Asbestos
+                               {{this.asbestosCertificateData.CertificateType}}
+                               Certificate.</h5>
+                      </div>
+                      <div class="pin-code-section py-3 d-flex align-items-center justify-content-center" >
+                          <div class="pin-code-head me-3"><h5 class="text-secondary"><span class="text-danger me-1 small"><i class="fa-solid fa-unlock"></i></span>Pin:</h5></div>
+                          <div class="pin-code-value"><h3 class="text-dark">
+                              {{this.asbestosCertificateData.pin}}
+                          </h3></div>
+                      </div>
+                      <div class="qr-scan-img py-3">
+                        <ngx-qrcode [value]='this.asbestosCertificateData.qrURL'></ngx-qrcode>
+                      </div>
+                      <div class="qr-text">
+                          <p class="text-secondary">
+                              <span class="btn btn-success">
+                                  {{this.asbestosCertificateData.message}}
+                              </span>
+                          </p>
+                      </div>
+                      <div class="qr-time-limit"><span>Please note that the QR is valid for 4 minutes. In case of any errors, please reload the page and try again.</span></div>
+                      <div class="QR-Code-Verification my-4">
+                          <span> QR Code Verification </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="container-fluid" *ngIf="this.UserRole != 'User' && this.UserRole != 'Supervisor'">
+  <div class="page-restrict">
+    <div class="page-exist">
+      The page you were looking for does not exist.
+    </div>
+    <div class="restrict-message">
+      You have mistyped the address or the page may have moved.
+    </div>
+    <a routerLink="/home">Go back to the homepage</a>
+  </div>
+</div>

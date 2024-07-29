@@ -1,0 +1,185 @@
+// @media(min-width:20em){
+//   .user-dashboard{
+//     display: flex;
+//     gap: 1em;
+//   }
+// }
+
+
+.MuiToolbar-gutters{
+  // padding: 0px 8px 0px 0px ;
+  margin-bottom: 2%;
+  height: 55px;
+  width: 1214.05px;
+  margin-bottom: 10px;
+}
+#tablehead{
+  height: 30px;
+}
+#card{
+  display: flex;
+  margin-left: -100px;
+}
+#refreshbtn{
+  margin-left: 30px;
+}
+
+#date{
+  border: transparent;
+  border-bottom: 1px rgba(100, 100, 100, 0.404);
+  background-color: transparent;
+}
+
+#search{
+  height: 27px;
+  width: 200px;
+  margin-top: 1px;
+  margin-left: 10px;
+  border: transparent;
+  position: relative;
+}
+#searchicon{
+  display: flex;
+  margin-left: 0px;
+  margin-top: 1px;
+}
+#searchbar{
+  border: transparent;
+}
+
+#close{
+  display: flex;
+  margin-top: -22px;
+  margin-left: 170px;
+}
+#closebtn{
+  border: transparent;
+  background-color: transparent;
+  color: rgba(156, 156, 156, 0);
+}
+#closebtn:hover{
+  border-radius: 25px;
+  background-color: rgba(206, 203, 203, 0.185);
+}
+#closepath{
+  background-color: transparent;
+  border: transparent;
+  position: fixed;
+}
+
+#siconimg{
+  position: fixed;
+}
+
+#bg{
+  background-color: white;
+}
+#refresh{
+  margin-top: 10px;
+  height: 38px;
+  width: 38px;
+  padding: 5px;
+  margin-left: 115px;
+  border: transparent;
+  border-radius: 25px;
+  background-color: transparent;
+  color: rgba(114, 112, 112, 0.212);
+}
+#refresh:hover{
+  background-color: rgba(206, 203, 203, 0.185);
+}
+
+.refresh-btn{
+  width: 53px ;
+
+}
+.jss49{
+  width:1180px;
+  //position: absolute;
+
+}
+.jss54{
+height: 29.25px;
+margin-left: 78.5%;
+margin-top: 12px;
+position: absolute;
+
+}
+.jss51{
+  width: 869.34px;
+  position: absolute;
+
+}
+
+.status-approved {
+  padding: 1px 10px;
+  font-size: 10px;
+  background: #D9FAE6;
+  border: 1px solid #0AA347;
+  border-radius: 25px;
+
+}
+.the{
+  white-space: nowrap;
+  text-align: center;
+}
+.the:hover{
+
+color: black;
+}
+.table-body tr td {
+  text-align: center;
+}
+
+.modal-body{
+  max-height: unset !important;
+}
+.qr-id-section{
+  margin-left: -10%;
+}
+
+.faded-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: transparentize($color: black, $amount: .2);
+  z-index:100 !important
+}
+.modal-header{
+  background-color: white !important;
+  padding-bottom: 0%;
+
+}
+
+.modal-body{
+  padding-top: 0%;
+}
+
+.modal-content{
+  height: 100%;
+
+}
+
+.btn-close{
+  margin-left: 97%;
+  padding-top: 2%;
+
+}
+::ng-deep .p-datatable .p-paginator-bottom {
+  border-width: 0 !important;
+}
+.role-table ::ng-deep .p-datatable .p-datatable-thead > tr > th{
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.role-table ::ng-deep .p-datatable .p-datatable-tbody > tr > td{
+  padding: 10px;
+  color: #000;
+
+}
+.jobid-serach input, .jobid-serach input::placeholder{
+  height: 26px;
+}

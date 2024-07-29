@@ -1,0 +1,190 @@
+<div class="loader" *ngIf="isLoading">
+  <div class="loader-ring"></div>
+  <span class="loader-text-submit">Loading....</span>
+</div>
+<div class='verify-certicate-section' style="display: none;" *ngIf="(this.UserRole == 'Inspector' || this.UserRole == 'Supervisor' || this.UserRole == 'Contractor')">
+    <div class="user-dashboard my-4" id="userDashboard">
+        <div class="">
+            <div class="Inspector-page" id="inspectorPage">
+                <div class="information">
+                    <!-- verify-photo -->
+                    <div class="verify-photo" *ngIf="this.verifyObj.photoLink; else elseStatement">
+                        <img [src]="this.verifyObj.photoLink + this.verifyObj.sasToken"
+                            alt="profile image">
+                    </div>
+                    <ng-template #elseStatement>
+                      <div class='verify-photo'><img src="assets/img/default-pic.png" alt="profile image" /></div>
+                    </ng-template>
+                        <div class="verify-btn" *ngIf="this.UserRole == 'Supervisor' || (this.UserRole == 'Inspector' && this.ParentData==undefined)">
+                           <button *ngIf="this.UserRole == 'Supervisor' else elseStatement" class="btn"   [disabled]="this.verifyObj.enableCheckIn" (click)="openpopup()" >Click here to CheckIn</button>
+                          <ng-template #elseStatement>
+                           <button class="btn"  [disabled]="this.verifyObj.enableCheckIn" (click)="openpopup()">Click here to Proceed</button>
+                         </ng-template>
+                         </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 "></div>
+                    </div>
+
+                </div>
+                <!-- QR CODE -->
+
+                <div class="qr-fc-id-section">
+                    <div class="row">
+                        <div class="col-sm-5 text-center">
+                            <div class="qr-id-section" >
+                                <div class="qr-header">
+                                    <h5 class="fs-16 fw-bold"> QR Code to Scan</h5>
+                                </div>
+                                <div class="qr-id-body">
+                                    <div class="qr-text">
+                                        <p class="text-secondary">Please ask the applicant to scan the below<br> Code
+                                            using Authenticator App</p>
+                                    </div>
+                                    <div class='sanning-details' *ngIf="this.UserRole == 'Inspector' && this.ParentData">
+                                      <ul class=''>
+                                          <li>
+                                              <label class='sanner-title'>Certificate Holder:</label>
+                                              <span class='sanner-name'>{{this.ApplicantName}}</span>
+                                          </li>
+                                          <li>
+                                              <label class='sanner-title'>Certificate Type:</label>
+                                              <span class='sanner-name'>{{this.ParentData.certificateType}}</span>
+                                          </li>
+                                      </ul>
+                                  </div>
+                                    <div class="qr-img my-2 pt-3" *ngIf="this.verifyObj.hideQr else elseStatements">
+                                      <span *ngIf="this.UserRole == 'Inspector' && this.ParentData else elseStatement3">
+                                      <span *ngIf="this.ParentData.applicantFirstName == this.verifyObj.user_data.firstName && this.ParentData.applicantLastName == this.verifyObj.user_data.lastName && this.ParentData.certificateType == this.verifyObj.user_data.certificate else elsestatement2">
+
+                                      </span>
+                                      <ng-template #elsestatement2>
+                                        <button class="btn btn-primary" (click)="ngOnInit()">Click here to verify again</button>
+                                      </ng-template>
+
+                                      </span>
+                                     <ng-template #elseStatement3>
+                                      <span *ngIf="this.UserRole=='Contractor' else elseStaement5 ">
+                                        <button class="btn btn-primary" [disabled]="false" (click)="ngOnInit()">Click here to verify next certificate</button>
+                                      </span>
+                                      <ng-template #elseStaement5>
+                                        <button class="btn btn-primary" [disabled]="this.verifyObj.disableNextVerification" (click)="ngOnInit()">Click here to verify next certificate</button>
+                                      </ng-template>
+
+                                     </ng-template>
+                                  </div>
+                                   <ng-template #elseStatements>
+                                    <ngx-qrcode [value]='this.verifyObj.qrURL' ></ngx-qrcode>
+                                   </ng-template>
+                                   <div *ngIf="this.UserRole == 'Inspector' && this.ParentData && this.verifyObj.user_data.firstName != '-'">
+                                         <div *ngIf="this.ParentData.applicantFirstName == this.verifyObj.user_data.firstName && this.ParentData.applicantLastName == this.verifyObj.user_data.lastName && this.ParentData.certificateType == this.verifyObj.user_data.certificate else elseStatement4">
+                                          <div class='d-flex justify-content-center'>
+                                            <button class='btn btn-primary' (click)="this.updateVerificationStatus()" >Click here to confirm</button>
+                                        </div>
+                                         </div>
+                                         <ng-template #elseStatement4>
+                                          <div class='error-message'><p>{{Constants.verifyMessage}}</p></div>
+                                         </ng-template>
+                                   </div>
+                                   <div class="qr-text">
+                                    <p class="text-secondary" *ngIf="this.verifyObj.message">
+                                      <span *ngIf="this.verifyObj.message == 'Certificate is suspended.' || this.verifyObj.message == 'Certificate is expired.' else elseSatement6">
+                                        <span class="status-message" style="font-size: 12px;">{{this.verifyObj.message}}</span>
+                                      </span>
+                                      <ng-template #elseSatement6>
+                                         <span *ngIf="Constants.UserRole == 'Inspector' && this.ParentData && this.verifyObj.user_data.firstName != '-' else elseStatement7">
+                                          <span *ngIf=" this.ParentData.applicantFirstName == this.verifyObj.user_data.firstName && this.ParentData.applicantLastName == this.verifyObj.user_data.lastName && this.ParentData.certificateType == this.verifyObj.user_data.certificate">
+                                            <span class="status-success-message" style="font-size: 12px;">{{this.verifyObj.message}}</span>
+                                          </span>
+                                         </span>
+                                         <ng-template #elseStatement7>
+                                          <span class="status-success-message" style="font-size: 12px;">{{this.verifyObj.message}}</span>
+                                         </ng-template>
+                                      </ng-template>
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2 d-flex align-items-center justify-content-center or-text">
+                            <span> <i class="fa-solid fa-circle-right"></i> </span>
+                        </div>
+
+                        <div class="col-sm-5 ">
+                            <div class="qr-id-section">
+                                <div class="qr-header">
+                                    <h5 class="fs-16 fw-bold text-center">Certificate Details</h5>
+                                    <span class="text-secondary d-block text-truncate"> Certificate Type </span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.user_data.certificate}} </span>
+                                    <span class="text-secondary d-block text-truncate">User Email Id</span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.user_data.loginUserEmailId}} </span>
+                                    <span class="text-secondary d-block text-truncate">Certificate Number</span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.certificateNumber}} </span>
+                                    <span class="text-secondary d-block text-truncate">Certificate Expiry Date </span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.expiryDate}} </span>
+                                    <span class="text-secondary d-block text-truncate"> First Name </span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.user_data.firstName}} </span>
+                                    <span class="text-secondary d-block text-truncate"> Last Name </span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.user_data.lastName}} </span>
+                                    <span class="text-secondary d-block text-truncate"> Address </span>
+                                    <span class="d-block text-truncate fw-bold-500" title=""> {{this.verifyObj.user_data.Address}} </span>
+                                    <span class="text-secondary d-block text-truncate"> Gender </span>
+                                    <span class="d-block text-truncate fw-bold-500"> {{this.verifyObj.user_data.Gender}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Certificate-Modal -->
+<div class="faded-background" *ngIf="this.verifyObj.openPremisepopup">
+  <div class="modal" id="reschedule-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content ">
+        <!-- Header -->
+        <div class="modal-header">
+          <div class="view-form-status pe-5"></div>
+			<span class="close popcls_red" (click)="closePopup()"><i class="fa-solid fa-xmark"></i></span>
+        </div>
+        <div class="modal-body" >
+          <div style="height: 200px; overflow: hidden;">
+          <ng-autocomplete #auto
+          [data]="this.suggestions"
+          [searchKeyword]="keyword"
+          placeholder="Type a Job ID"
+          (selected)='selectEvent($event)'
+          (inputChanged)='onChangeSearch($event)'
+          [itemTemplate]="itemTemplate"
+          (inputCleared)="onCleared($event)"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+        <div *ngIf="this.verifyObj.errorPremise" class="errormessage">Please type a Job ID</div>
+              <ng-template #itemTemplate let-item>
+                <a [innerHTML]="item.jobID"></a>
+              </ng-template>
+              <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+              </ng-template>
+            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"  (click)="closePopup()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="checkInUser()">Submit</button>
+              </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

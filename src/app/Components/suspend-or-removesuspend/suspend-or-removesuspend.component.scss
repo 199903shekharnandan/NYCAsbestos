@@ -1,0 +1,33 @@
+.statusApprove{
+  background: #d9fae6;
+  border: 1px solid #0aa347;
+  border-radius: 25px;
+  font-size: 10px;
+  padding: 1px 10px;
+}
+.dropdown-li:hover{ font-size: 14px; padding-left: 5px; background-color: #326fd1 !important; color: white; }
+.statusPending{
+  background: #ffeede;
+    border: 1px solid #ff9934;
+    border-radius: 15px;
+    color: #ff9934;
+    font-size: 10px;
+    padding: 1px 5px;
+}
+.statusRejected{
+  background: #ffe2e2;
+    border: 1px solid #f30c0c;
+    border-radius: 25px;
+    color: #f30c0c;
+    font-size: 10px;
+    padding: 1px 5px;
+}
+.dropdown-toggle::after {
+  display: none !important;
+}
+.suspend-table .p-datatable .p-datatable-thead > tr > th{
+  padding: 7px !important;
+}
+.suspend-table .p-datatable .p-datatable-tbody > tr > td{
+  padding:  0 10px !important;
+}

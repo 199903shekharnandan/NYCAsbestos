@@ -1,0 +1,16 @@
+export interface IattendanceHistory{
+  applicationEndDate:Date,
+  applicantFirstName:string,
+  applicantLastName:string,
+  applicantMiddleName:string,
+  certificateNumber:number,
+  certificateType:string,
+  verifiedDate:Date,
+  verifierName:string,
+  jobID:string,
+  LoginData:Date,
+  VerifierID:string,
+  expiryDate:Date,
+  certificateStatus:string,
+  issuedDate:Date,
+}

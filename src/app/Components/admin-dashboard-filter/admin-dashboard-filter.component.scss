@@ -1,0 +1,117 @@
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 2rem;
+    height: 1rem;
+    top: 4px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: .6rem;
+    width: .6rem;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input + .slider {
+    background-color: #00529b;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #00529b;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(1rem);
+    -ms-transform: translateX(1rem);
+    transform: translateX(1rem);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: .7rem;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+.date-input{
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+}
+.date-label{
+  color:black;
+  font-size: 12px;
+    font-weight: 600 !important;
+}
+.form-control{
+  height: 25px !important;
+  width: 9rem;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 12px !important;
+  padding-left: 0px;
+  margin-top: -5px;
+}
+.filter-content .dropdown-toggle::after{
+  float: right;
+}
+::ng-deep ngx-bootstrap-multiselect{
+  button.btn{
+    width: 54vw !important;
+    text-align: left !important;
+    color: grey !important;
+    background-color: white !important;
+    border-color: lightgray !important;
+  }
+  button.btn-primary:hover{
+    background-color: white !important;
+  }
+  .btn-primary:hover:not(.disabled):not(:disabled){
+    background-color: white !important;
+  }
+  .btn-primary:hover {
+    border-color: lightgray !important;
+  }
+  .btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: none !important;
+  }
+  .dropdown-menu{
+    width: 100% !important;
+    font-size: .8rem !important;
+  }
+  .dropdown-toggle::after{
+    float: right;
+  }
+  .active{
+    background-color: rgba(255, 255, 255, 0.781) !important;
+    color: grey !important;
+  }
+}

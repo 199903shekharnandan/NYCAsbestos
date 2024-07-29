@@ -1,0 +1,146 @@
+<div class="top-header-section">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <div class="logo-section">
+          <a href="/home"><img src="../assets/img/logo-nyc.png" alt="NYC Logo" /></a>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="profile-section">
+          <div class="d-flex justify-content-end align-items-center">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle"
+                style="background-color: transparent;color:#fff ;border: none;box-shadow: none;" type="button"
+                id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{(userName && userName!="")?userName:userEmail}}
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="padding: 10px;font-size: 14px;">
+
+                <li style="border-bottom: 1px solid #e3e3e3;padding-bottom: 5px;"> <span class='d-block text-truncate'>
+                    {{userEmail}} </span></li>
+                <li (click)="commonServObj.logout()" style="padding-top: 5px;cursor: pointer;">
+                  <span> <i class="fa-solid fa-power-off" style="color:red"></i> Sign out</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="navbarnavigation">
+  <div class="top-nav-menu my-3">
+    <div class="mobile-menu-section row align-items-center">
+      <div class="col-sm-6 text-start">
+        <div class="logo-section">
+          <img src="../../assets/img/logo-nyc.png" alt="NYC Logo" />
+        </div>
+      </div>
+      <div class="col-sm-6 text-end">
+        <div class="hamburger" (click)="toggle()">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- User and Common Options -->
+    <ul class="nav nav-tabs" role="tablist" id="top-navigation">
+      <li class="nav-item hand-pointer" *ngIf="isUser || isAdmin || isInspector || isContractor || isSupervisor">
+        <!-- <a class="nav-link active" *ngIf='currentURL.includes("home")' id="home" data-bs-toggle="tab"
+          (click)="routeFunction('/home')">Home</a> -->
+          <a class="nav-link"  id="home" data-bs-toggle="tab"
+          (click)="routeFunction('/home')" routerLink="/home" routerLinkActive="active">Home</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isUser || isSupervisor">
+        <a class="nav-link active" *ngIf='currentURL.includes("applicationInstructions")' id="applicationInstructions"
+          data-bs-toggle="tab" (click)="routeFunction('/applicationInstructions')">Application Instructions</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("applicationInstructions")' id="applicationInstructions"
+          data-bs-toggle="tab" (click)="routeFunction('/applicationInstructions')">Application Instructions</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isUser || isAdmin || isInspector || isContractor || isSupervisor">
+        <a class="nav-link active" *ngIf='currentURL.includes("profile")' id="profile" data-bs-toggle="tab"
+          (click)="routeFunction('/profile')">Profile</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("profile")' id="profile" data-bs-toggle="tab"
+          (click)="routeFunction('/profile')">Profile</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isUser || isSupervisor">
+        <a class="nav-link active" *ngIf='currentURL.includes("dashboard")' id="dashboard" data-bs-toggle="tab"
+          (click)="routeFunction('/dashboard')">Dashboard</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("dashboard")' id="dashboard" data-bs-toggle="tab"
+          (click)="routeFunction('/dashboard')">Dashboard</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isUser || isSupervisor">
+        <a class="nav-link active" *ngIf='currentURL.includes("certificate")' id="certificate" data-bs-toggle="tab"
+          (click)="routeFunction('/certificate')">Asbestos Certificate</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("certificate")' id="certificate" data-bs-toggle="tab"
+          (click)="routeFunction('/certificate')">Asbestos Certificate</a>
+      </li>
+
+      <!-- Admin Specific Options -->
+      <li class="nav-item hand-pointer" *ngIf="isAdmin">
+        <a class="nav-link active" *ngIf='currentURL.includes("adminDashboard")' id="adminDashboard"
+          data-bs-toggle="tab" (click)="routeFunction('/adminDashboard')">Dashboard</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("adminDashboard")' id="adminDashboard" data-bs-toggle="tab"
+          (click)="routeFunction('/adminDashboard')">Dashboard</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isAdmin">
+        <a class="nav-link active" *ngIf='currentURL.includes("suspendOrRemoveSuspend")' id="suspendOrRemoveSuspend"
+          data-bs-toggle="tab" (click)="routeFunction('/suspendOrRemoveSuspend')">Suspend or Remove Suspend</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("suspendOrRemoveSuspend")' id="suspendOrRemoveSuspend"
+          data-bs-toggle="tab" (click)="routeFunction('/suspendOrRemoveSuspend')">Suspend or Remove Suspend</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isAdmin">
+        <a class="nav-link active" *ngIf='currentURL.includes("roleManagement")' id="roleManagement"
+          data-bs-toggle="tab" (click)="routeFunction('/roleManagement')">Role Management</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("roleManagement")' id="roleManagement" data-bs-toggle="tab"
+          (click)="routeFunction('/roleManagement')">Role Management</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isAdmin">
+        <a class="nav-link active" *ngIf='currentURL.includes("examDateManagement")' id="examDateManagement"
+          data-bs-toggle="tab" (click)="routeFunction('/examDateManagement')">Exam Date Management</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("examDateManagement")' id="examDateManagement"
+          data-bs-toggle="tab" (click)="routeFunction('/examDateManagement')">Exam Date Management</a>
+      </li>
+
+      <!-- Inspector and Contractor Specific Options -->
+      <li class="nav-item hand-pointer" *ngIf="isInspector">
+        <a class="nav-link active" *ngIf='currentURL.includes("verificationHistory")' id="verificationHistory"
+          data-bs-toggle="tab" (click)="routeFunction('/verificationHistory')">Verification History</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("verificationHistory")' id="verificationHistory"
+          data-bs-toggle="tab" (click)="routeFunction('/verificationHistory')">Verification History</a>
+      </li>
+      <li class="nav-item hand-pointer" *ngIf="isInspector || isContractor">
+        <a class="nav-link active" *ngIf='currentURL.includes("verificationCertificate")' id="verificationCertificate"
+          data-bs-toggle="tab" (click)="routeFunction('/verificationCertificate')">Verify Certificate</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("verificationCertificate")' id="verificationCertificate"
+          data-bs-toggle="tab" (click)="routeFunction('/verificationCertificate')">Verify Certificate</a>
+      </li>
+
+      <!-- Supervisor Specific Options -->
+      <li class="nav-item hand-pointer" *ngIf="isSupervisor">
+        <a class="nav-link active" *ngIf='currentURL.includes("attendanceHistory")' id="attendanceHistory"
+          data-bs-toggle="tab" (click)="routeFunction('/attendanceHistory')">Attendance History</a>
+        <a class="nav-link" *ngIf='!currentURL.includes("attendanceHistory")' id="attendanceHistory"
+          data-bs-toggle="tab" (click)="routeFunction('/attendanceHistory')">Attendance History</a>
+      </li>
+
+      <div class="profile-section mobile-profile-section">
+        <div class="d-flex justify-content-start align-items-center">
+          <div class="profile-img me-2">
+            <img class="rounded-circle" src="../../assets/img/image 43.png" alt="profile-img" />
+          </div>
+          <div class="profile-name w-50 me-2">
+            <span class='d-block text-truncate'> {{userName}} </span>
+            <span class='d-block text-truncate'> {{userEmail}} </span>
+          </div>
+          <div class="logout">
+            <span (click)="commonServObj.logout()"> <i class="fa-solid fa-power-off" style="color:red"></i></span>
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>

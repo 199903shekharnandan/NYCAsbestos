@@ -1,0 +1,286 @@
+<div>
+  <div class="user-dashboard my-4 user-status">
+    <!-- Loader -->
+    <div *ngIf="state.isLoading">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <span class="loader-text-submit">Loading....</span>
+      </div>
+    </div>
+    <div *ngIf="!state.isLoading">
+      <div class="container-fluid" *ngIf="isAdmin">
+        <!-- Status Section of the page -->
+        <div class="dashboard-status my-2">
+          <div class="card">
+            <ul>
+              <li>
+                <a>Initial</a>
+                <span *ngIf="this.state.Results.newForm == 0">-</span>
+                <span *ngIf="this.state.Results.newForm != 0">{{
+                  this.state.Results.newForm
+                  }}</span>
+              </li>
+              <li>
+                <a>Renewal</a>
+                <span *ngIf="this.state.Results.renewal == 0">-</span>
+                <span *ngIf="this.state.Results.renewal != 0">{{
+                  this.state.Results.renewal
+                  }}</span>
+              </li>
+              <li>
+                <a>Duplicate</a>
+                <span *ngIf="this.state.Results.duplicate == 0">-</span>
+                <span *ngIf="this.state.Results.duplicate != 0">{{
+                  this.state.Results.duplicate
+                  }}</span>
+              </li>
+              <li>
+                <a>Scheduled</a>
+                <span *ngIf="this.state.Results.scheduled == 0">-</span>
+                <span *ngIf="this.state.Results.scheduled != 0">{{
+                  this.state.Results.scheduled
+                  }}</span>
+              </li>
+              <li>
+                <a>Approved</a>
+                <span *ngIf="this.state.Results.approved == 0">-</span>
+                <span *ngIf="this.state.Results.approved != 0">{{
+                  this.state.Results.approved
+                  }}</span>
+              </li>
+              <li>
+                <a>Rejected</a>
+                <span *ngIf="this.state.Results.rejected == 0">-</span>
+                <span *ngIf="this.state.Results.rejected != 0">{{
+                  this.state.Results.rejected
+                  }}</span>
+              </li>
+              <li>
+                <a>Objected</a>
+                <span *ngIf="this.state.Results.objected == 0">-</span>
+                <span *ngIf="this.state.Results.objected != 0">{{
+                  this.state.Results.objected
+                  }}</span>
+              </li>
+              <li>
+                <a>Pending</a>
+                <span *ngIf="this.state.Results.pending == 0">-</span>
+                <span *ngIf="this.state.Results.pending != 0">{{
+                  this.state.Results.pending
+                  }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Customer Data Filters -->
+        <app-admin-dashboard-filter [adminDashboard]="this"></app-admin-dashboard-filter>
+
+        <!-- Customer Table -->
+        <div class="user-dashboard">
+          <div>
+            <div class="user-dashboard-table admin-user-dashboard-table cust-admin-table">
+              <div class="ocse-parent mx-2">
+                <p-table [value]="state.requests" #dt1 class="tbladminDashboard" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5, 10, 15]" [responsive]="true" [globalFilterFields]="[
+                  'Id',
+                  'ApplicationType',
+                  'CertificationType',
+                  'IssuedDate',
+                  'ApplicantNameString',
+                  'DMVNumber',
+                  'Date_of_Birth',
+                  'SubmittedOn',
+                  'ReceiptNumber',
+                  'Status',
+                  'CertificateNumber',
+                  'ExpiryDate',
+                  'OCSEApprovalStatus',
+                  'OCSECaseId',
+                  'ExamStatus',
+                  'DMVStatusString',
+                  'Action'
+                ]">
+                <ng-template pTemplate="caption">
+                  <div class="p-d-flex w-100 d-flex" style="justify-content: space-between">
+                    <h4>Records</h4>
+                    <span class="p-input-icon-left p-ml-auto">
+                      <div class="input-group">
+                        <span class="input-group-text bg-none" id="basic-addon1"><i class="pi pi-search"></i></span>
+                        <input type="text" class="form-control bg-left" placeholder="Search" (input)="
+                        dt1.filterGlobal(
+                          $any($event.target).value,
+                          'contains'
+                        )
+                      ">
+                      </div>
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="Id">
+                      Request <br/>ID <p-sortIcon field="Id"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ApplicationType">
+                      Application Type
+                      <p-sortIcon field="ApplicationType"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="CertificationType">
+                      Certificate Type
+                      <p-sortIcon field="CertificationType"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="IssuedDate">
+                      Certificate Issued Date
+                      <p-sortIcon field="IssuedDate"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ApplicantNameString">
+                      Applicant Name<p-sortIcon field="ApplicantNameString"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="DMVNumber">
+                      DMV <br/>No. <p-sortIcon field="DMVNumber"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="Date_of_Birth">
+                      Date of <br />Birth<p-sortIcon field="Date_of_Birth"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="SubmittedOn">
+                      Submitted On<p-sortIcon field="SubmittedOn"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ReceiptNumber">
+                      Receipt <br />No.<p-sortIcon field="ReceiptNumber"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="Status">
+                      Application Status<p-sortIcon field="Status"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="CertificateNumber">
+                      Certificate No.<p-sortIcon field="CertificateNumber"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ExpiryDate">
+                      Expiry Date<p-sortIcon field="ExpiryDate"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="OCSEApprovalStatus">
+                      OCSE <br />Status<p-sortIcon field="OCSEApprovalStatus"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="OCSECaseId">
+                      OCSE <br />CaseId<p-sortIcon field="OCSECaseId"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ExamStatus">
+                      Exam <br />Status<p-sortIcon field="ExamStatus"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="DMVApprovalStatus">
+                      DMV <br />Status<p-sortIcon field="DMVApprovalStatus"></p-sortIcon>
+                    </th>
+                    <th>
+                      <div class="info-admin" (click)="showDescription()">
+                        <span class="material-icons icon-admin cursor-pointer" aria-label="message"><i
+                            class="fa fa-info-circle" aria-hidden="true"></i></span>
+                      </div>
+                    </th>
+                    <th pSortableColumn="Action">Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-i="rowIndex">
+                  <tr>
+                    <td>{{ data.Id }}</td>
+                    <td>{{ data.ApplicationType }}</td>
+                    <td>{{ data.CertificationType }}</td>
+                    <td>{{ data.IssuedDate }}</td>
+                    <td>{{ data.ApplicantNameString }}</td>
+                    <td>{{ data.DMVNumber }}</td>
+                    <td>{{ data.Date_of_Birth }}</td>
+                    <td>{{ data.SubmittedOn }}</td>
+                    <td>{{ data.ReceiptNumber }}</td>
+                    <td [innerHTML]="data.Status"></td>
+                    <td>{{ data.CertificateNumber }}</td>
+                    <td>{{ data.ExpiryDate }}</td>
+                    <td [innerHTML]="data.OCSEApprovalStatus"></td>
+                    <td [innerHTML]="data.OCSECaseId"></td>
+                    <td [innerHTML]="data.ExamStatus"></td>
+                    <td [innerHTML]="data.DMVApprovalStatus"></td>
+                    <td></td>
+                    <td>
+                      <div class="dropdown view-dropdown">
+                        <button class="dropdown-toggle" style="
+                            background-color: transparent;
+                            border: none;
+                            box-shadow: none;
+                          " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
+                          style="padding: 10px; font-size: 14px">
+                          <li>
+                            <a class="dropdown-item" (click)="openViewForm(data)">View</a>
+                          </li>
+                          <li *ngIf='(data.ExamStatusString == "Passed") || (data.ExamStatusString == "Failed")'>
+                            <a class="dropdown-item" (click)="getRes(data)">Get Result</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft" class="d-block">
+                  <button class="btn btn-primary ocse-btn me-2" (click)="getOCSEApproval()">
+                    Get OCSE Approval
+                  </button>
+                  <button class="btn btn-primary exam-trigger-btn" (click)="getExamStatus()">
+                    Get Exam Status
+                  </button>
+                </ng-template>
+                <!-- <ng-template pTemplate="paginatorright">
+                </ng-template> -->
+              </p-table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br/>
+
+        <!-- DMV Status Description -->
+        <div *ngIf="state.openDMVStatusMessages" class="faded-background">
+          <div class="dmv-description col-sm-8">
+            <div class="modal-table">
+              <div (click)="hideDescription()" class="material-icons cursor-pointer text-end">
+                <img src="assets/img/close-fill.svg" alt="close" />
+              </div>
+              <p-table [value]="state.DMVStatusMessages">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Status Code</th>
+                    <th>Description</th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-value>
+                  <tr>
+                    <td>{{ value.StatusCode }}</td>
+                    <td>{{ value.Message }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View Form -->
+        <app-view-profile [parent]="this"  *ngIf="state.openViewForm" ></app-view-profile>
+      </div>
+      <!-- Screen for non admin user -->
+      <div class="container-fluid" *ngIf="!isAdmin">
+        <div class="page-restrict">
+          <div class="page-exist">
+            The page you were looking for does not exist.
+          </div>
+          <div class="restrict-message">
+            You have mistyped the address or the page may have moved.
+          </div>
+          <a routerLink="/home">Go back to the homepage</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

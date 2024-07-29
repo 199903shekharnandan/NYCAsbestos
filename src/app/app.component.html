@@ -1,0 +1,11 @@
+<!-- Loader -->
+<div *ngIf="!gblRole">
+  <div class="loader">
+    <div class="loader-ring"></div>
+    <span class="loader-text-submit">Loading....</span>
+  </div>
+</div>
+<div *ngIf="gblRole">
+  <app-navbar *ngIf="isNavbar"></app-navbar>
+  <router-outlet></router-outlet>
+</div>

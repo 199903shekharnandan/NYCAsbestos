@@ -1,0 +1,186 @@
+<div class="loader" *ngIf="isLoading">
+  <div class="loader-ring"></div>
+  <span class="loader-text-submit">{{loaderText}}</span>
+</div>
+
+<div *ngIf="isAdmin">
+  <div class='roles-management'>
+    <div class="container-fluid">
+      <div class="role-management-page my-4">
+        <div class="header py-2">
+          <div class="row mb-1">
+            <div class="col-sm-6">
+              <div class="tabs-section">
+                <ul>
+                  <li class='nav-item active' id="Inspector"> <a class='nav-link' (click)="handleHiglight('I')">
+                      Inspector</a> </li>
+                  <li class='nav-item' id="Contractor"> <a class='nav-link' (click)="handleHiglight('C')">
+                      Contractor</a> </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-6 text-end add-btn" style="margin-top: 8px;">
+              <button type="button" class='btn btn-primary' (click)="openFormModal('A','')"> Add </button>
+            </div>
+          </div>
+          <div class="user-dashboard-table admin-user-dashboard-table role-table">
+            <p-table [value]="dataObj" #dt1 class="tblRole" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10,15,25,50]" [globalFilterFields]="['name','status','loginUserEmailId','contactNumber']" [responsive]="true">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex w-100 d-flex" style="justify-content: end">
+                <span class="p-input-icon-left p-ml-auto">
+                  <div class="input-group">
+                    <span class="input-group-text bg-none" id="basic-addon1"><i class="pi pi-search"></i></span>
+                    <input type="text" class="form-control bg-left" placeholder="Search" (input)="dt1.filterGlobal($any($event.target).value, 'contains')">
+                  </div>
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Sno</th>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="status">Position <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="loginUserEmailId">Email <p-sortIcon field="loginUserEmailId"></p-sortIcon></th>
+                <th pSortableColumn="contactNumber">Contact Number <p-sortIcon field="contactNumber"></p-sortIcon></th>
+                <th *ngIf="currentTab=='C'">Licence</th>
+                <th>Actions</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+              <tr>
+                <td>{{i+1}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.status}}</td>
+                <td>{{data.loginUserEmailId}}</td>
+                <td>{{data.contactNumber}}</td>
+                <td *ngIf="currentTab=='C'"><span *ngIf="data.status=='Contractor' && data.licenseLink"> <a href="javascript:void(0);" (click)="openDoc(data.licenseLink)">Download file</a></span></td>
+                <td>
+                  <div><a id="edit" class="edit-link-table" title="edit" (click)="openFormModal('E', data)"><i
+                        class="fa-solid fa-pen-to-square text-success me-3"></i></a>
+                    <a id="delete" class="delete-link" title="delete" (click)="deleteData(data)"><i
+                        class="fa fa-trash text-danger" aria-hidden="true"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" *ngIf="!isAdmin">
+  <div class="page-restrict">
+    <div class="page-exist">
+      The page you were looking for does not exist.
+    </div>
+    <div class="restrict-message">
+      You have mistyped the address or the page may have moved.
+    </div>
+    <a routerLink="/home">Go back to the homepage</a>
+  </div>
+</div>
+
+<!--form modal-->
+<div id="addEditPnl" class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" *ngIf="isEdit==false">Add</h5>
+        <h5 class="modal-title" id="exampleModalLabel" *ngIf="isEdit==true">Edit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #roleManagementForm="ngForm">
+        <div class="modal-body">
+          <div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label className="form-label"> User Name <span class="important-i">*</span></label>
+                <input name="name" type="text" class="form-control" maxlength="30" placeholder="User Name"
+                  [(ngModel)]="roleManagementData.name" #name="ngModel" required>
+                <div class="errormessage">
+                  <div *ngIf="name.touched && name.invalid" class="errormessage">Please enter User Name</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label className="form-label"> Position <span class="important-i">*</span></label>
+                <select name="status" class="form-select" [(ngModel)]="roleManagementData.status " #status="ngModel" (change)="changePosition()"
+                  required [ngClass]="isEdit === true ? 'readonly' : ''">
+                  <option value="">Select Position</option>
+                  <option value="Inspector">Inspector</option>
+                  <option value="Contractor">Contractor</option>
+                </select>
+                <div class="errormessage">
+                  <div *ngIf="status.touched && status.invalid" class="errormessage">Please Select Position</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label className="form-label"> User EmailID <span class="important-i">*</span></label>
+                <input name="loginUserEmailId" type="email" class="form-control" maxlength="30"
+                  placeholder="User EmailID" [(ngModel)]="roleManagementData.loginUserEmailId "
+                  #loginUserEmailId="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required
+                  [ngClass]="isEdit === true ? 'readonly' : ''">
+                <div class="errormessage">
+                  <p *ngIf="loginUserEmailId.errors?.pattern">This is not a valid Email!!!</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="form-label">Telephone Number </label>
+                <input name="contactNumber" type="number" class="form-control" placeholder="Telephone Number"
+                (keypress) ="validateInput($event,'10')" [(ngModel)]="roleManagementData.contactNumber" #contactNumber="ngModel"
+                pattern="\d{10}">
+                <div class="errormessage">
+                  <p *ngIf="contactNumber.errors?.pattern">This is not a valid Telephone Number!!!</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12" *ngIf="roleManagementData.status=='Contractor'" >
+              <div class="required-document-form">
+              <div class="form-group">
+                <label class="form-label">  License  <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.roleManagementData.document.length > 0 ? '' : 'License'"
+                 />
+                 <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-doc" multiple=false lang="es"  (change)="changeImg($event,'doc')" required>
+                  <div class='selected-attachments cust-select-attachment' >
+                      <div *ngIf="this.roleManagementData.document && this.roleManagementData.document.length>0">
+                      <div class="attachment-links" (click)="this.removeAttachment()" >
+                        <label>{{ this.roleManagementData.document[0].name}}</label>
+                        <i class="fa fa-times closeIcon" aria-hidden="true" ></i>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <div *ngIf="isEdit === false"><input type="submit" value="Save" class="btn btn-primary" (click)="createRole()"
+              [disabled]="!roleManagementForm.valid || isDoc "></div>
+          <div *ngIf="isEdit === true"><input type="submit" value="Update" class="btn btn-primary"
+              (click)="updateRoleCheck()" [disabled]="!roleManagementForm.valid || isDoc"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

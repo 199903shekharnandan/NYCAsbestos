@@ -1,0 +1,955 @@
+<div class="loader" *ngIf="isLoading">
+  <div class="loader-ring"></div>
+    <span class="loader-text-submit">{{this.applicationFormData.loaderMessage}}</span>
+</div>
+<!-- personalInformation -->
+<div *ngIf="showPI">
+<div class="supervisors-new-application my-4">
+  <div class="container-fluid">
+    <div class="progress-track">
+      <div class="stepper-wrapper">
+        <div class="stepper-item active">
+          <div class="step-counter">01</div>
+          <div class="step-name">Personal Information</div>
+        </div>
+        <div class="stepper-item">
+          <div class="step-counter">02</div>
+          <div class="step-name">Additional Information</div>
+        </div>
+        <div class="stepper-item">
+          <div class="step-counter">03</div>
+          <div class="step-name">Required Documents</div>
+        </div>
+        <div class="stepper-item">
+          <div class="step-counter">04</div>
+          <div class="step-name">Payment</div>
+        </div>
+      </div>
+    </div>
+  <form #personalInformationForm = "ngForm">
+    <div class="personal-information my-3 p-3">
+      <div class="application-certificate-type">
+        <div class="certificate-type">   Application Request for &nbsp;
+          <span class="certificate-type fw-bold">
+            <!-- Initial -->
+            {{this.props.applicateType}}
+            - </span>
+          <span class="application-type fw-bold">
+            <!-- Handler -->
+            {{this.props.certificateType}}
+          </span>
+          <span class="certificate-type"> Certificate</span>
+        </div>
+      </div>
+      <div class="header-section pb-2 d-flex justify-content-between">
+        <h5> Personal Information</h5>
+        <div class="required"><span>*</span> Mandatory</div>
+      </div>
+
+      <div class="information-form-section">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label">Social Security Number <span class="important-i">*</span></label>
+              <input name="SSN"  class="form-control" maxlength="9" (keypress) ="validateInput($event,'9')"
+              placeholder="Social Security Number" [(ngModel)]="this.applicationFormData.SSN"  #SSN="ngModel" pattern="\d{9}" required>
+              <div *ngIf="SSN.touched && SSN.invalid" class="errormessage">Please Enter Social Security Number</div>
+              <div class="errormessage"><p *ngIf="SSN.errors?.pattern">This must be a 9 digit number</p></div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label">DMV Number <span class="important-i">*</span></label>
+              <input name="DMV"  class="form-control" maxlength="9"  (keypress) ="validateInput($event,'9')"
+              placeholder="DMV Number" [(ngModel)]="this.applicationFormData.DMV"  #DMV="ngModel" pattern="\d{9}"  required>
+              <div *ngIf="DMV.touched && DMV.invalid" class="errormessage">Please Enter DMV Number</div>
+              <div class="errormessage"><p *ngIf="DMV.errors?.pattern">This must be a 9 digit number</p></div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> Birthday <span class="important-i">*</span></label>
+              <input name="Birthday"  type="date" class="form-control" (change)="validDOB($event)"
+              [(ngModel)]="this.applicationFormData.birthDay" #Birthday="ngModel" [max]="today" required>
+              <div *ngIf="Birthday.touched && Birthday.invalid" class="errormessage">Please select Birthday</div>
+              <div *ngIf="dobError" class="errormessage">Cannot be a future date</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> Gender <span class="important-i">*</span></label>
+              <div class="form-group d-flex flex-wrap">
+                <div class="form-check me-2">
+                    <input class="hand-pointer form-check-input" type="radio" name="gender" id="gender1" value="F" [(ngModel)]="this.applicationFormData.gender" #gender="ngModel"  required>
+                    <label class="form-check-label" for="gender1">
+                      Female
+                    </label>
+                  </div>
+                  <div class="form-check me-2">
+                    <input class="hand-pointer form-check-input" type="radio" name="gender" id="gender2" value="M" [(ngModel)]="this.applicationFormData.gender" #gender="ngModel"  required>
+                    <label class="form-check-label" for="gender2">
+                      Male
+                    </label>
+                  </div>
+                  <div class="form-check me-2">
+                    <input class="hand-pointer form-check-input" type="radio" name="gender" id="gender3" value="Unknown" [(ngModel)]="this.applicationFormData.gender" #gender="ngModel"  required>
+                    <label class="form-check-label" for="gender3">
+                      Unknown
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="hand-pointer form-check-input" type="radio" name="gender" id="gender4" value="Not disclosed" [(ngModel)]="this.applicationFormData.gender" #gender="ngModel"  required>
+                    <label class="form-check-label" for="gender4">
+                      I choose not to disclose
+                    </label>
+                  </div>
+             </div>
+             <div *ngIf="gender.touched && gender.invalid" class="errormessage">Please select Gender</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> First Name <span class="important-i">*</span></label>
+              <input name="FirstName"  type="text" class="form-control" (keypress) ="validateInput($event,'Name');"
+              [(ngModel)]="this.applicationFormData.firstName" #FirstName="ngModel" required>
+              <div *ngIf="FirstName.touched && FirstName.invalid" class="errormessage">Please enter First Name</div>
+
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> Middle Name </label>
+              <input name="MiddleName"  type="text" class="form-control" (keypress) ="validateInput($event,'Name')"
+              [(ngModel)]="this.applicationFormData.middleName" >
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> Last Name <span class="important-i">*</span></label>
+              <input name="LastName"  type="text" class="form-control" (keypress) ="validateInput($event,'Name')"
+              [(ngModel)]="this.applicationFormData.lastName" #LastName="ngModel" required>
+              <div *ngIf="LastName.touched && LastName.invalid" class="errormessage">Please enter Last Name</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="d-flex">
+              <div class="height me-2 d-flex " style="flex-flow: column">
+               <div> <label class="form-label"> Height(Feet) <span class="important-i">*</span></label></div>
+               <div> <input name="Feet"  type="number" class="form-control" (keypress) ="validateInput($event,'1')"
+                [(ngModel)]="this.applicationFormData.feet" #Feet="ngModel" required  placeholder="Height(Feet)" ></div>
+                <div *ngIf="Feet.touched && Feet.invalid" class="errormessage">Please enter Feet</div>
+              </div>
+
+            <div class="inches d-flex " style="flex-flow: column">
+             <div> <label class="form-label"> Inches <span class="important-i">*</span></label></div>
+             <div> <input name="Inches"  type="number" class="form-control" (keypress) ="validateInput($event,'2')"
+              [(ngModel)]="this.applicationFormData.inches" #Inches="ngModel" required  placeholder="Inches" ></div>
+              <div *ngIf="Inches.touched && Inches.invalid" class="errormessage">Please enter Inch</div>
+            </div>
+          </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group weight-input-form">
+              <label class="form-label">Weight <span class="important-i">*</span></label>
+              <input name="Weight"  type="number" class="form-control" (keypress) ="validateInput($event,'5')"
+              placeholder="Weight" [(ngModel)]="this.applicationFormData.weight"  #Weight="ngModel" maxlength="5"  required>
+              <div *ngIf="Weight.touched && Weight.invalid" class="errormessage">Please enter Weight</div>
+              <span class="ibs">Ibs</span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> Mailing/ Home Street Address <span class="important-i">*</span></label>
+              <textarea name="address"  type="text" class="form-control" maxlength="30"
+              [(ngModel)]="this.applicationFormData.address" #address="ngModel" required style="height: 65px;" (keypress) ="validateInput($event,'N')"></textarea>
+              <div *ngIf="address.touched && address.invalid" class="errormessage">Please enter Mailing/ Home Street Address</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="form-label"> Apartment </label>
+              <input name="apartment"  type="text" class="form-control" maxlength="10"
+              [(ngModel)]="this.applicationFormData.apartment" #apartment="ngModel" placeholder="Apartment" (keypress) ="alphabetsOnly($event);">
+            </div>
+          </div>
+          <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label"> State <span class="important-i">*</span></label>
+             <p-dropdown [options]="this.applicationFormData.stateTypeValues" name="state" #state="ngModel"
+              [(ngModel)]="this.applicationFormData.state" optionLabel="value" [filter]="true" filterBy="value" [showClear]="true"
+              styleClass="sh-dropdown w-100"placeholder="Select a State"(ngModelChange)="changeStates($event)">
+            </p-dropdown>
+            <div *ngIf="ddlselectedState && state.touched" class="errormessage">Please Select State</div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">City <span class="important-i">*</span></label>
+            <input name="city"  type="text" class="form-control"
+            placeholder="City" [(ngModel)]="this.applicationFormData.city"  #city="ngModel" maxlength="25" (keypress)="alphabetsOnly($event); "  required>
+            <div *ngIf="city.touched && city.invalid" class="errormessage">Please enter City</div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Zip Code <span class="important-i">*</span></label>
+            <input name="zipCode"  class="form-control" (keypress) ="validateInput($event,'9')"
+            placeholder="Zip Code" [(ngModel)]="this.applicationFormData.zipCode"  #zipCode="ngModel" maxlength="9"  pattern="^(\d{9}|\d{5})"  required>
+            <div class="errormessage"><p *ngIf="zipCode.errors?.pattern">This must either be a 5 or 9 digit number</p></div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Home Telephone Number <span class="important-i">*</span></label>
+            <input name="homeNumber"  class="form-control" (keypress) ="validateInput($event,'10')"
+            placeholder="Home Number" [(ngModel)]="this.applicationFormData.homeNumber"  #homeNumber="ngModel" maxlength="10" pattern="\d{10}"  required>
+            <div class="errormessage"><p *ngIf="homeNumber.errors?.pattern">This must be a 10 digit number</p></div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Work Telephone Number </label>
+            <input name="workNumber"  class="form-control"
+            placeholder="Work Number" [(ngModel)]="this.applicationFormData.workNumber"  #workNumber="ngModel" maxlength="10" pattern="\d{10}" (keypress) ="validateInput($event,'10')">
+            <div class="errormessage"><p *ngIf="workNumber.errors?.pattern">This must be a 10 digit number</p></div>
+          </div>
+        </div>
+        </div>
+        <div *ngIf="this.props.certificateType == 'Investigator' || this.props.certificateType =='Investigator Restricted'">
+        <div class="col-sm-8 mb-3">
+          <div class="d-flex align-items-center">
+            <div class="note me-2">
+              <span>
+                <label class="fw-bold">Note:</label> I want my work
+                telephone Number posted on the NYCDEP website:
+              </span>
+            </div>
+            <div class="check-box-section d-flex align-items-center">
+              <div class="form-group-check-box">
+                <div class="check-box-input d-flex mt-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="posted" id="posted1" value="Yes" [(ngModel)]="this.applicationFormData.postOnWebsite" >
+                    <label class="form-check-label" for="posted1">
+                        Yes
+                    </label>
+                  </div>
+                  <div class="form-check" style="margin-left: 10px;">
+                    <input class="form-check-input" type="radio" name="posted" id="posted2" value="No" [(ngModel)]="this.applicationFormData.postOnWebsite">
+                    <label class="form-check-label" for="posted2">
+                        No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="btn-sections">
+      <div class="col-sm-12 text-end">
+        <input type="button" class="btn btn-primary me-2" value=" Save As Draft" (click)=" saveAsDraftForPI();">
+        <input type="submit" class="btn btn-primary" value="Next"  [disabled]="!personalInformationForm.valid || dobError ||ddlselectedState" (click)="savePI()">
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+</div>
+
+<!-- Additional Information -->
+<div *ngIf="showAI">
+  <div class="supervisors-new-application my-4">
+    <div class="container-fluid">
+      <div class="progress-track">
+        <div class="stepper-wrapper">
+          <div class="stepper-item completed" (click)="backPI()">
+            <div class="step-counter">01</div>
+            <div class="step-name">Personal Information</div>
+          </div>
+          <div class="stepper-item active" >
+            <div class="step-counter">02</div>
+            <div class="step-name">Additional Information</div>
+          </div>
+          <div class="stepper-item">
+            <div class="step-counter">03</div>
+            <div class="step-name">Required Documents</div>
+          </div>
+          <div class="stepper-item">
+            <div class="step-counter">04</div>
+            <div class="step-name">Payment</div>
+          </div>
+        </div>
+      </div>
+    <form #additionalInformationForm = "ngForm">
+      <div class="personal-information my-3 p-3">
+        <div class="application-certificate-type">
+          <div class="certificate-type">   Application Request for &nbsp;
+            <span class="certificate-type fw-bold">
+              {{this.props.applicateType}}
+              - </span>
+            <span class="application-type fw-bold">
+              {{this.props.certificateType}}
+            </span>
+            <span class="certificate-type"> Certificate</span>
+          </div>
+        </div>
+        <div class="header-section pb-2 d-flex justify-content-between">
+          <h5>Additional Information</h5>
+
+          <div class="required"><span>*</span> Mandatory</div>
+        </div>
+
+        <div class="information-form-section">
+          <h6><b>Employer Information :</b> </h6>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">Current Employer Name </label>
+                <input name="employerName"  type="text" class="form-control"
+                 placeholder="Employer Name" [(ngModel)]="this.applicationFormData.employerName"  #employerName="ngModel" maxlength="25"   (keypress) ="validateInput($event,'25')">
+
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">Street Address </label>
+                <textarea name="employerAddress"  type="text" class="form-control"
+                 placeholder="Employer Address" [(ngModel)]="this.applicationFormData.employerAddress"  #employerAddress="ngModel" maxlength="60" style="height: 65px;" (keypress) ="validateInput($event,'N')"></textarea>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">City </label>
+                <input name="employerCity"  type="text" class="form-control"
+                 placeholder="City" [(ngModel)]="this.applicationFormData.employerCity"  #employerCity="ngModel" maxlength="25"  (keypress)="alphabetsOnly($event);">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label"> State </label>
+              <p-dropdown [options]="this.applicationFormData.stateTypeValues" name="empstate"
+              [(ngModel)]="this.applicationFormData.employerState" optionLabel="value" [filter]="true"
+              filterBy="value" [showClear]="true" styleClass="sh-dropdown w-100" placeholder="Select a State">
+           </p-dropdown>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">Zip Code </label>
+                <input name="employerZipCode"  class="form-control"
+                placeholder="Zip Code" [(ngModel)]="this.applicationFormData.employerZipCode"  #employerZipCode="ngModel" maxlength="9"  pattern="^(\d{9}|\d{5})" (keypress)="validateInput($event,'9')">
+                <div class="errormessage"><p *ngIf="employerZipCode.errors?.pattern">This must either be a 5 or 9 digit number</p></div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label"> Employment Start Date</label>
+                <input name="employmentStartDate"  type="date" class="form-control"
+                [(ngModel)]="this.applicationFormData.employmentStartDate" #employmentStartDate="ngModel" >
+              </div>
+            </div>
+            <div class="m-4"></div>
+            <h6><b>School Information:</b></h6>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">NYSDOL Training Entity/ School Name<span class="important-i">*</span></label>
+                <input name="schoolName"  type="text" class="form-control" (keypress)="alphabetsOnly($event);"
+                placeholder="NYSDOL Training Entity/ School Name" [(ngModel)]="this.applicationFormData.schoolName"  #schoolName="ngModel" maxlength="25" required>
+                <div *ngIf="schoolName.touched && schoolName.invalid" class="errormessage">Please enter NYSDOL Training Entity/ School Name</div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">Street Address</label>
+                <textarea name="schoolAddress"  type="text" class="form-control"
+                placeholder="School Address" [(ngModel)]="this.applicationFormData.schoolAddress" (keypress)="validateInput($event,'N')"  #schoolAddress="ngModel" maxlength="30" style="height: 65px;"></textarea>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">City </label>
+                <input name="schoolCity"  type="text" class="form-control"
+                 placeholder="City" [(ngModel)]="this.applicationFormData.schoolCity" (keypress)="alphabetsOnly($event)"  #employerCity="ngModel" maxlength="25"  >
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label"> State </label>
+              <p-dropdown [options]="this.applicationFormData.stateTypeValues" name="schoolstate"
+              [(ngModel)]="this.applicationFormData.schoolState" optionLabel="value" [filter]="true"
+              filterBy="value" [showClear]="true" styleClass="sh-dropdown w-100" placeholder="Select a State">
+           </p-dropdown>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="form-label">Zip Code </label>
+                <input name="schoolZipCode"  class="form-control"
+                placeholder="Zip Code" [(ngModel)]="this.applicationFormData.schoolZipCode"  #schoolZipCode="ngModel" maxlength="9"  pattern="^(\d{9}|\d{5})" (keypress)="validateInput($event,'9')">
+                <div class="errormessage"><p *ngIf="schoolZipCode.errors?.pattern">This must either be a 5 or 9 digit number</p></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group-check-box">
+                  <div class="d-flex justify-content-between">
+                  <label class="form-label">  1. Have you been found guilty after trial, or pleaded guilty, no
+                    contest, or nolo contender to a crime related to asbestos or
+                    occupational safety or health (felony or misdemeanor) in any court? <span class="important-i">*</span></label>
+                    <div class="d-flex justify-content-end">
+                  <div class="d-flex">
+                  <input class="hand-pointer form-check-input" style="width: 20px;" type="radio" name="IsGuilty" id="IsGuilty1" value="Yes" [(ngModel)]="this.applicationFormData.IsGuilty" #IsGuilty="ngModel"  required>
+                  <label class="form-check-label" for="IsGuilty1">Yes</label>
+                </div>
+                <div class="d-flex ml-2">
+                  <input class="hand-pointer form-check-input ml-3" style="width: 20px;" type="radio"  name="IsGuilty" id="IsGuilty2" value="No" [(ngModel)]="this.applicationFormData.IsGuilty" #IsGuilty="ngModel"  required>
+                  <label class="form-check-label" for="IsGuilty2">No</label>
+                </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group-check-box">
+                  <div class="d-flex justify-content-between">
+                  <label class="form-label">   2. Has any licensing or disciplinary authority revoked, annulled,
+                    cancelled, accepted surrender of, suspended, placed on probation, or
+                    refused to issue or renew a professional license or certificate held
+                    by you now or previously, or fined, censured, reprimanded or
+                    otherwise disciplined you? <span class="important-i">*</span></label>
+                    <div class="d-flex justify-content-end">
+                  <div class="d-flex">
+                  <input class="hand-pointer form-check-input" style="width: 20px;" type="radio" name="IsDisciplined" id="IsDisciplined1" value="Yes" [(ngModel)]="this.applicationFormData.IsDisciplined" #IsDisciplined="ngModel"  required>
+                  <label class="form-check-label" for="IsDisciplined1">Yes</label>
+                </div>
+                  <div class="d-flex ml-2">
+                  <input class="hand-pointer form-check-input ml-3" style="width: 20px;" type="radio"  name="IsDisciplined" id="IsDisciplined2" value="No" [(ngModel)]="this.applicationFormData.IsDisciplined" #IsDisciplined="ngModel"  required>
+                  <label class="form-check-label" for="IsDisciplined2">No</label>
+                </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group-check-box">
+                  <div class="d-flex justify-content-between">
+                  <label class="form-label">   3. Any criminal charges related to asbestos or occupational safety
+                    or health pending against you in any court? <span class="important-i">*</span></label>
+                    <div class="d-flex justify-content-end">
+                  <div class="d-flex">
+                  <input class="hand-pointer form-check-input" style="width: 20px;" type="radio" name="IsCriminalCharged" id="IsCriminalCharged1" value="Yes" [(ngModel)]="this.applicationFormData.IsCriminalCharged" #IsCriminalCharged="ngModel"  required>
+                  <label class="form-check-label" for="IsCriminalCharged1">Yes</label>
+                </div>
+                  <div class="d-flex ml-2">
+                  <input class="hand-pointer form-check-input ml-3" style="width: 20px;" type="radio"  name="IsCriminalCharged" id="IsCriminalCharged2" value="No" [(ngModel)]="this.applicationFormData.IsCriminalCharged" #IsCriminalCharged="ngModel" required>
+                  <label class="form-check-label" for="IsCriminalCharged2">No</label>
+                </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group-check-box">
+                  <div class="d-flex justify-content-between">
+                  <label class="form-label">     4. Any charges pending against you in any jurisdiction for any sort
+                    of professional misconduct? <span class="important-i">*</span></label>
+                    <div class="d-flex justify-content-end">
+                  <div class="d-flex">
+                  <input class="hand-pointer form-check-input" style="width: 20px;" type="radio" name="hasMisconductCharges" id="hasMisconductCharges1" value="Yes" [(ngModel)]="this.applicationFormData.hasMisconductCharges" #hasMisconductCharges="ngModel"  required>
+                  <label class="form-check-label" for="hasMisconductCharges1">Yes</label>
+                </div>
+                  <div class="d-flex ml-2">
+                  <input class="hand-pointer form-check-input ml-3" style="width: 20px;" type="radio"  name="hasMisconductCharges" id="hasMisconductCharges2" value="No" [(ngModel)]="this.applicationFormData.hasMisconductCharges" #hasMisconductCharges="ngModel"  required>
+                  <label class="form-check-label" for="hasMisconductCharges2">No</label>
+                </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group-check-box">
+                  <div class="d-flex justify-content-between">
+                  <label class="form-label">      5. Do you presently have a NYCDEP Asbestos handler certificate? <span class="important-i">*</span></label>
+                    <div class="d-flex justify-content-end">
+                  <div class="d-flex">
+                  <input class="hand-pointer form-check-input" style="width: 20px;" type="radio" name="hasHandlerCertificate" id="hasHandlerCertificate1" value="Yes" [(ngModel)]="this.applicationFormData.hasHandlerCertificate" #hasHandlerCertificate="ngModel" (click)="showcertificatePnl()"   required>
+                  <label class="form-check-label" for="hasHandlerCertificate1">Yes</label>
+                </div>
+                  <div class="d-flex ml-2">
+                  <input class="hand-pointer form-check-input ml-3" style="width: 20px;" type="radio"  name="hasHandlerCertificate" id="hasHandlerCertificate2" value="No" [(ngModel)]="this.applicationFormData.hasHandlerCertificate" #hasHandlerCertificate="ngModel"  (click)="hidecertificatePnl()"  required>
+                  <label class="form-check-label" for="hasHandlerCertificate2">No</label>
+                </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="certificatePnl">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="form-label">Certificate Number <span class="important-i">*</span></label>
+                    <input name="oldCertificate"  class="form-control"
+                    placeholder="Old Certificate" [(ngModel)]="this.applicationFormData.oldCertificate"  #oldCertificate="ngModel"  pattern="\d{6}" maxlength="6" (keypress)="validateInput($event,'6')" required>
+                    <div *ngIf="oldCertificate.touched && oldCertificate.invalid" class="errormessage">Please enter Certificate Number</div>
+                  <div class="errormessage"><p *ngIf="oldCertificate.errors?.pattern">This must be a 6 digit number</p></div>
+
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="form-label"> Expiry Date <span class="important-i">*</span></label>
+                    <input name="certificateExpiryDate"  type="date" class="form-control"
+                    [(ngModel)]="this.applicationFormData.certificateExpiryDate" #certificateExpiryDate="ngModel" required>
+                    <div *ngIf="certificateExpiryDate.touched && certificateExpiryDate.invalid" class="errormessage">Please select Expiry Date</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group-check-box">
+                  <div class="d-flex justify-content-between">
+                  <label class="form-label">6. Do you presently have a valid asbestos handling
+                    certificate/license in another state?<span class="important-i">*</span></label>
+                    <div class="d-flex justify-content-end">
+                  <div class="d-flex">
+                  <input class="hand-pointer form-check-input" style="width: 20px;" type="radio" name="hasHandlerCertificateOtherState" id="hasHandlerCertificateOtherState1" value="Yes" [(ngModel)]="this.applicationFormData.hasHandlerCertificateOtherState" (click)="showstatePnl()" #hasHandlerCertificate="ngModel"  required>
+                  <label class="form-check-label" for="hasHandlerCertificateOtherState1">Yes</label>
+                </div>
+                  <div class="d-flex ml-2">
+                  <input class="hand-pointer form-check-input ml-3" style="width: 20px;" type="radio"  name="hasHandlerCertificateOtherState" id="hasHandlerCertificateOtherState2" value="No" [(ngModel)]="this.applicationFormData.hasHandlerCertificateOtherState" (click)="hidestatePnl()" #hasHandlerCertificateOtherState="ngModel"  required>
+                  <label class="form-check-label" for="hasHandlerCertificateOtherState2">No</label>
+                </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="statePnl">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="form-label"> State <span class="important-i">*</span></label>
+                  <p-dropdown [options]="this.applicationFormData.stateTypeValues" name="certificatestate"
+                  [(ngModel)]="this.applicationFormData.certificateState" optionLabel="value" [filter]="true"
+                  filterBy="value" [showClear]="true" styleClass="sh-dropdown w-100" placeholder="Select a State" (ngModelChange)="changeState($event)">
+               </p-dropdown>
+               <div *ngIf="ddlCertificateState" class="errormessage">Please Select State</div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="form-label"> Expiry Date <span class="important-i">*</span></label>
+                    <input name="certificateExpiryDateOtherState"  type="date" class="form-control"
+                    [(ngModel)]="this.applicationFormData.certificateExpiryDateOtherState" #certificateExpiryDateOtherState="ngModel" required>
+                    <div *ngIf="certificateExpiryDateOtherState.touched && certificateExpiryDateOtherState.invalid" class="errormessage">Please select Expiry Date</div>
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-sections">
+        <div class="col-sm-12 text-end">
+          <input type="button" class="btn btn-white me-2" value=" Back" (click)="backPI()">
+          <input type="button" class="btn btn-primary me-2" value=" Save As Draft" (click)="saveAsDraft('Additional','Save',false)">
+          <input type="submit" class="btn btn-primary" value="Next" [disabled]="!additionalInformationForm.valid ||ddlCertificateState" (click)="checkValidationsOI()">
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+  </div>
+<!-- Required Documents -->
+<div *ngIf="showRD">
+  <div class="supervisors-new-application my-4">
+    <div class="container-fluid">
+      <div class="progress-track">
+        <div class="stepper-wrapper">
+          <div class="stepper-item completed" (click)="backPI()">
+            <div class="step-counter">01</div>
+            <div class="step-name">Personal Information</div>
+          </div>
+          <div class="stepper-item completed"  (click)="backAI()">
+            <div class="step-counter">02</div>
+            <div class="step-name">Additional Information</div>
+          </div>
+          <div class="stepper-item active">
+            <div class="step-counter">03</div>
+            <div class="step-name">Required Documents</div>
+          </div>
+          <div class="stepper-item">
+            <div class="step-counter">04</div>
+            <div class="step-name">Payment</div>
+          </div>
+        </div>
+      </div>
+      <div class="personal-information my-3 p-3">
+        <div class="application-certificate-type">
+          <div class="certificate-type">   Application Request to &nbsp;
+            <span class="certificate-type fw-bold">{{this.props.applicateType}}  </span>
+            <span class="certificate-type"> the </span>
+            <span class="application-type fw-bold">{{this.props.certificateType}}</span>
+            <span class="certificate-type"> Certificate</span>
+          </div></div>
+          <div class="download-icon-required mb-2">
+            <div *ngIf="this.props.certificateType == 'Supervisor'">
+               <div class="d-flex">
+                 <label class="me-2">Download Appendix Forms </label>
+                 <div class="pdf me-2" title="Supervisor Appendix C">
+                   <i (click)="AppendixC()" class="fa-solid fa-download"></i>
+                 </div>
+                 <div class="pdf me-2" title="Supervisor Appendix F">
+                   <i (click)="AppendixF()" class="fa-solid fa-download"></i>
+                 </div>
+               </div>
+             </div>
+             <div *ngIf=" this.props.certificateType == 'Investigator'">
+              <div class="d-flex">
+              <div class="pdf me-2" title="Investigator Appendix A">
+                <i (click)="AppendixA()" class="fa-solid fa-download"></i>
+              </div>
+              <div class="pdf me-2" title="Investigator Appendix B">
+                <i (click)="AppendixB()" class="fa-solid fa-download"></i>
+              </div>
+              <div class="pdf me-2" title="Investigator Appendix D">
+                <i (click)="AppendixD()" class="fa-solid fa-download"></i>
+              </div>
+              <div class="pdf me-2" title="Investigator Appendix E">
+                <i  (click)="AppendixE()" class="fa-solid fa-download"></i>
+              </div>
+              </div>
+             </div>
+
+
+             <div class="required"><span>*</span> Mandatory</div>
+           </div>
+      <div class="information-form-section">
+        <div class="required-document-form">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group top56-for-icon-div">
+                <label class="form-label"> Front of NYS Driver’s License or Non-Driver’s Identification Card <span *ngIf='!this.applicationFormData.attachmentReceipt || this.applicationFormData.attachmentReceipt == ""' class="important-i">*</span> </label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentDMVFront.length > 0 ? '' : 'Front of NYS Driver’s License or Non-Driver’s Identification Card'"
+                 />
+                <div class="attachment-icon">
+                  <span class="d-block  float-start me-4 cust-attachment" (click)="frontImage.isCameraPopup=true; applicationFormData.openCaptureDMVFront=true;"> <i class="fa-solid fa-camera"></i> </span>
+                  <input type="file" accept="image/*" id="attachment-DMVFront" multiple=false lang="es" (change)="changeImg($event,'DMVFront')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentDMVFront &&  this.applicationFormData.attachmentDMVFront.length >0">
+
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'DMVFront')">
+                        <label>{{ this.applicationFormData.attachmentDMVFront[0]}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group top56-for-icon-div">
+                <label class="form-label"> Back of NYS Driver’s License or Non-Driver’s Identification Card  <span *ngIf='!this.applicationFormData.attachmentReceipt || this.applicationFormData.attachmentReceipt == ""' class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentDMVEnd.length > 0 ? '' : 'Back of NYS Driver’s License or Non-Driver’s Identification Card'"
+                 />
+                <div class="attachment-icon">
+                  <span class="d-block  float-start me-4 cust-attachment" (click)="backImage.isCameraPopup=true; applicationFormData.openCatureDMVBack=true;" > <i class="fa-solid fa-camera"></i> </span>
+                  <input type="file" accept="image/*" id="attachment-DMVBack" multiple=false lang="es" (change)="changeImg($event,'DMVEnd')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentDMVEnd &&  this.applicationFormData.attachmentDMVEnd.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'DMVEnd')">
+                        <label>{{ this.applicationFormData.attachmentDMVEnd[0]}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group">
+                <label class="form-label"> FS-6T Receipt Issued By DMV  <span *ngIf="!(this.applicationFormData.attachmentDMVFront.length > 0 && this.applicationFormData.attachmentDMVEnd.length > 0)" class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentReceipt.length > 0 ? '' : 'FS-6T Receipt Issued By DMV'"
+                 />
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-receipt" multiple=false lang="es" (change)="changeImg($event,'Receipt')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentReceipt &&  this.applicationFormData.attachmentReceipt.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'Receipt')">
+                        <label>{{ this.applicationFormData.attachmentReceipt[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group">
+                <label class="form-label">  Social Security Card  <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentSSC.length > 0 ? '' : 'Social Security Card'"
+                 />
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-SSC" multiple=false lang="es" (change)="changeImg($event,'SSC')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentSSC &&  this.applicationFormData.attachmentSSC.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'SSC')">
+                        <label>{{ this.applicationFormData.attachmentSSC[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group">
+                <label class="form-label">  NYS DOH Form 2832 Proof of Training  <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentDYS.length > 0 ? '' : 'NYS DOH Form 2832 Proof of Training'"
+                 />
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-DYS" multiple=false lang="es" (change)="changeImg($event,'DYS')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentDYS &&  this.applicationFormData.attachmentDYS.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'DYS')">
+                        <label>{{ this.applicationFormData.attachmentDYS[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <!-- for InvestigatorCertificate -->
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6" *ngIf="this.props.certificateType=='Investigator' || this.props.certificateType=='Supervisor'">
+              <div class="form-group multiple-attachment-section ">
+                <label class="form-label">  Appendices <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentAppendices.length > 0 ? '' : (('Initial' == this.props.applicateType) && (this.props.certificateType == 'Investigator' || this.props.certificateType == 'Investigator Restricted')) ? 'Appendices A,B,D and E' : ('Renewal' == this.props.applicateType && this.props.certificateType == 'Investigator') ? 'Appendices A and B' : ('Initial' == this.props.applicateType && this.props.certificateType == 'Supervisor') ? 'Appendices C and F' : ''"/>
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-OCSE" multiple=false lang="es" (change)="changeImg($event,'Appendix')" />
+                  <div class='selected-attachments cust-select-attachment d-flex' *ngIf=" this.applicationFormData.attachmentAppendices &&  this.applicationFormData.attachmentAppendices.length >0">
+                    <div style="margin-right:5px;" *ngFor="let item of this.applicationFormData.attachmentAppendices; let i = index">
+                      <div (click)="this.removeAttachment(i, 'Appendix')">
+                        <label>{{item.name}} <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i></label>
+
+                      </div>
+                    </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group">
+                <label class="form-label">  OCSE Clearance Letter </label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentOCSE.length > 0 ? '' : 'OCSE Clearance Letter'"
+                 />
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-OCSE" multiple=false lang="es" (change)="changeImg($event,'OCSE')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentOCSE &&  this.applicationFormData.attachmentOCSE.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'OCSE')">
+                        <label>{{ this.applicationFormData.attachmentOCSE[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6" *ngIf="this.props.certificateType == 'Investigator'|| this.props.certificateType == 'Investigator Restricted'|| this.props.certificateType == 'Supervisor' || this.props.certificateType == 'Supervisor Restricted'">
+              <div class="form-group">
+                <label class="form-label"> Notarized Reference Letters From Past Employers Verifying Experience <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentReference.length > 0 ? '' : '  Notarized Reference Letters From Past Employers Verifying Experience'"
+                 />
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id=" attachment-reference" multiple=false lang="es" (change)="changeImg($event,'Reference')" />
+                  <div class='selected-attachments cust-select-attachment-large' *ngIf=" this.applicationFormData.attachmentReference &&  this.applicationFormData.attachmentReference.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'Reference')">
+                        <label>{{ this.applicationFormData.attachmentReference[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment large-text-icon"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6" *ngIf="this.props.certificateType == 'Investigator'|| this.props.certificateType == 'Investigator Restricted'">
+              <div class="form-group">
+                <label class="form-label">Proof of Completion of Introductory 8-Hour Minimum Blueprint Reading Course <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentCourse.length > 0 ? '' : ' Proof of Completion of Introductory 8-Hour Minimum Blueprint Reading Course'"
+                 />
+                <div class="attachment-icon cust-attachment">
+                  <input type="file" accept="image/*,application/pdf" id=" attachment-course" multiple=false lang="es" (change)="changeImg($event,'Course')" />
+                  <div class='selected-attachments cust-select-attachment-large' *ngIf=" this.applicationFormData.attachmentCourse &&  this.applicationFormData.attachmentCourse.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'Course')">
+                        <label>{{ this.applicationFormData.attachmentCourse[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment large-text-icon"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group">
+                <label class="form-label">  Your Picture <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentPhoto.length > 0 ? '' : 'Your Picture'"
+                 />
+                <div class="attachment-icon">
+                  <span class="d-block  float-start me-4 cust-attachment" (click)="pictureImage.isCameraPopup=true; applicationFormData.openCapturePhoto=true;"> <i class="fa-solid fa-camera"></i> </span>
+                  <input type="file" accept="image/*" id="attachment-photo" multiple=false lang="es" (change)="changeImg($event,'Photo')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentPhoto &&  this.applicationFormData.attachmentPhoto.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'Photo')">
+                        <label>{{this.applicationFormData.attachmentPhoto[0]}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12  col-lg-6">
+              <div class="form-group">
+                <label class="form-label">  Signature <span class="important-i">*</span></label>
+                <input type="text" class="form-control"  [placeholder]="this.applicationFormData.attachmentSignature.length > 0 ? '' : 'Signature'"
+                 />
+                <div class="attachment-icon">
+                  <input type="file" accept="image/*,application/pdf" id="attachment-signature" multiple=false lang="es"  (change)="changeImg($event,'Signature')" />
+                  <div class='selected-attachments cust-select-attachment' *ngIf=" this.applicationFormData.attachmentSignature &&  this.applicationFormData.attachmentSignature.length >0">
+                      <div class="attachment-links" (click)="this.removeAttachment(0, 'Signature')">
+                        <label>{{ this.applicationFormData.attachmentSignature[0].name}}</label>
+                        <i class="fa fa-times" aria-hidden="true" style="width: 18px !important; height: 18px !important; color: red; border:1px solid #ccc; border-radius: 50%; padding: 2px 4px;"></i>
+                      </div>
+                  </div>
+                  <span class="cust-attachment"> <i class="fa-solid fa-arrow-up-from-bracket"></i></span>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="btn-sections">
+          <div class="row">
+            <div class="col-sm-6">
+              <button class="btn btn-primary me-2" [disabled]="this.applicationFormData.attachmentDMVFront.length == 0 && this.applicationFormData.attachmentDMVEnd.length == 0 || !this.applicationFormData.nextState" (click)="checkValidationsRD()"> Verify</button>
+              <span *ngIf="this.applicationFormData.nextState; else elseStatement">
+                <span *ngIf="(this.applicationFormData.attachmentDMVFront.length > 0 || this.applicationFormData.attachmentDMVEnd.length > 0)">
+                  <b class="verify-mandatory">Please verify documents</b> </span>
+              </span>
+              <ng-template #elseStatement>
+                <span *ngIf="(this.applicationFormData.attachmentDMVFront.length > 0 || this.applicationFormData.attachmentDMVEnd.length > 0)">  <b class="verified">Documents are verified</b> </span>
+              </ng-template>
+            </div>
+            <div class="col-sm-6 text-end">
+              <button class="btn btn-white me-2" (click)="backAI()"> Back</button>
+              <button class="btn btn-primary me-2" (click)="saveAsDraft('Documents','Save')" > Save As Draft</button>
+              <button class="btn btn-primary me-2" [disabled]="this.applicationFormData.attachmentDMVFront.length == 0 && this.applicationFormData.attachmentDMVEnd.length == 0 ? false : this.applicationFormData.nextState" (click)="checkValidationsRD_RemovingScan()">{{this.applicationFormData.IsPaymentComplete ? "Submit" : "Next"}}</button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  </div>
+
+
+<div class="supervisors-new-application my-4" *ngIf="showSM">
+  <div class="container-fluid">
+    <div class="progress-track">
+      <div class="stepper-wrapper">
+        <div class="stepper-item completed" (click)="backPI()">
+          <div class="step-counter" >01</div>
+          <div class="step-name">Personal Information</div>
+        </div>
+        <div class="stepper-item completed" (click)="backAI()">
+          <div class="step-counter">02</div>
+          <div class="step-name">Additional Information</div>
+        </div>
+        <div class="stepper-item completed" (click)="backRD()">
+          <div class="step-counter">03</div>
+          <div class="step-name">Required Documents</div>
+        </div>
+        <div class="stepper-item active" >
+          <div class="step-counter">04</div>
+          <div class="step-name">Payment</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-box">
+      Review your contact information before making the payment.
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="desc-details">
+          <div class="row details-title">
+            <div class="col-7">
+              <div class="info-title ">Description</div>
+            </div>
+            <div class="col-5">
+              <div class="info-title ">Price</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-7">
+              <div class="info-title ">Exam</div>
+              <div class="contact-info">
+                <div class="summary-title"> Application Type :</div>
+                <div>{{this.props.applicateType}}</div>
+              </div>
+              <div class="contact-info">
+                <div class="summary-title">Certificate Type :</div>
+                <div>{{this.props.certificateType}}</div>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="">$ {{this.applicationFormData.feeAmount}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="desc-details">
+          <div class="row">
+            <h5>Confirm Contact Information</h5>
+            <p>Your name must exactly match the identification (ID) that is presented at the test center or you will not be permitted to take your exam</p>
+            <div class="contact-info">
+              <div class="summary-title">Name :</div>
+              <div>{{this.applicationFormData.firstName + " " + this.applicationFormData.middleName + " " + this.applicationFormData.lastName}}</div>
+            </div>
+            <div class="contact-info">
+              <div class="summary-title">Telephone :</div>
+              <div>{{"(" + this.applicationFormData.homeNumber.substring(0, 3) + ") " + this.applicationFormData.homeNumber.substring(3, 6) + "-" + this.applicationFormData.homeNumber.substring(6, 10)}}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <div class="desc-details">
+          <div class="total row">
+            <h5>Total Due</h5>
+            <div class="col-6">
+              <div>Subtotal :</div>
+              <div>Estimated Tax :</div>
+              <b>ESTIMATED TOTAL DUE :</b>
+            </div>
+            <div class="col-3">
+            </div>
+            <div class="col-3">
+              <div>$ {{this.applicationFormData.feeAmount}}</div>
+              <div>$ 0</div>
+              <b>$ {{this.applicationFormData.feeAmount}}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="summary-btns">
+      <button class="btn back-btn" (click)="backRD()" >Back</button>
+      <button class="btn btn-primary" (click)="proceedToPayment()">Proceed To Pay</button>
+
+    </div>
+
+  </div>
+</div>
+
+  <camera-popup [parent]="pictureImage" [parentThis]="this" *ngIf="pictureImage.isCameraPopup"></camera-popup>
+  <camera-popup [parent]="frontImage" [parentThis]="this" *ngIf="frontImage.isCameraPopup"></camera-popup>
+  <camera-popup [parent]="backImage" [parentThis]="this" *ngIf="backImage.isCameraPopup"></camera-popup>

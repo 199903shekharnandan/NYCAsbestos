@@ -1,0 +1,133 @@
+<div class="cust-table-filter">
+  <div class="card">
+    <div class="filter-buttons">
+      <div class="css-vb6e92 m-2" style="float: left; margin-top:1rem;">
+        <span class="select-fields">Applied Date</span>
+        <!-- Rounded switch -->
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="adminDashboard.state.isDateOrOtherField" id="filterType">
+          <span class="slider round"></span>
+        </label>
+        <span class="select-fields">Other Field</span>
+      </div>
+      <div class="filter-dates" *ngIf="adminDashboard.state.isDateOrOtherField==false">
+        <div>
+          <div class="mx-2 d-flex">
+            <div class="form-group" style="margin-right: .5rem;">
+              <span class="form-label date-label">Start Date</span>
+              <input id="startDate" [(ngModel)]="adminDashboard.state.applicationStartDate" value="state.startDate" class="form-control date-input" type="date" [max]="today" required>
+            </div>
+            <div class="form-group">
+              <span class="form-label date-label">End Date</span>
+              <input id="endDate" [(ngModel)]="adminDashboard.state.applicationEndDate" class="form-control date-input" type="date" [max]="today" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-dates" *ngIf="adminDashboard.state.isDateOrOtherField==true">
+        <div>
+          <div class="d-flex">
+            <div class="form-group" style="margin-right: .5rem;">
+              <span class="form-label date-label">Search Field</span>
+              <select (change)="adminDashboard.state.searchValue=''; adminDashboard.state.searchDate=null; " [(ngModel)]="adminDashboard.state.selectedSearchParameter" class="form-select form-control" type="dropdown">
+                <option *ngFor="let option of adminDashboard.searchParameters" [value]="option.value">
+                  {{option.label}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-right: .5rem;">
+              <span class="form-label date-label">Search Value</span>
+              <input class="form-control me-2" *ngIf="!(adminDashboard.state.selectedSearchParameter== 'language' || adminDashboard.state.selectedSearchParameter== 'dob' || adminDashboard.state.selectedSearchParameter== 'examdate' || adminDashboard.state.selectedSearchParameter == 'issueddate')" [(ngModel)]="adminDashboard.state.searchValue" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control me-2" *ngIf="adminDashboard.state.selectedSearchParameter== 'dob' || adminDashboard.state.selectedSearchParameter== 'examdate' || adminDashboard.state.selectedSearchParameter == 'issueddate'" [(ngModel)]="adminDashboard.state.searchDate" type="date" [max]=" adminDashboard.state.selectedSearchParameter!= 'examdate'?today:''" aria-label="Search">
+              <select class="form-select form-control me-2" *ngIf="adminDashboard.state.selectedSearchParameter== 'language'" [(ngModel)]="adminDashboard.state.searchValue" type="dropdown">
+                <option *ngFor="let option of adminDashboard.Languages" [value]="option.value">
+                  {{option.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Buttons -->
+      <div class="filter-btns mt-2">
+        <div>
+          <button class="btn btn-primary me-2" data-bs-dismiss="modal" [disabled]="adminDashboard.state.isDateOrOtherField==true && adminDashboard.state.searchValue=='' && (adminDashboard.state.searchDate=='' || adminDashboard.state.searchDate==null) " (click)="applyButtonAction()">
+            Apply
+          </button>
+        </div>
+        <div>
+          <button class="btn" (click)="refresh()">
+            <span>
+              <i class="fa fa-refresh" style="font-size: 1rem; color: grey;" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary ml-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="fa fa-filter"></i> <span class="ms-2">Filter</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- filter pop up -->
+    <div class="modal filter-popup" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content filter-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Filter Data</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-12 mb-2">
+                <label>Application Type</label><br>
+                <ngx-bootstrap-multiselect [options]="selectApplicationType" [(ngModel)]="adminDashboard.state.ApplicationData"></ngx-bootstrap-multiselect>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <label>Certificate Type</label><br>
+              <ngx-bootstrap-multiselect [options]="selectCertificate" [(ngModel)]="adminDashboard.state.CertificateData"></ngx-bootstrap-multiselect>
+            </div>
+
+            <div class="col-sm-12 mb-2">
+              <label>Exam Status</label><br>
+              <ngx-bootstrap-multiselect [options]="selectExamStatus" [(ngModel)]="adminDashboard.state.ExamStatusData"></ngx-bootstrap-multiselect>
+            </div>
+            <div class="col-sm-12 mb-2">
+              <label> Application Status</label><br>
+              <ngx-bootstrap-multiselect [options]="selectApplicationStatus" [(ngModel)]="adminDashboard.state.ApplicationStatusData"></ngx-bootstrap-multiselect>
+            </div>
+            <div class="col-sm-12 mb-2">
+              <label> DMV Status</label><br>
+              <ngx-bootstrap-multiselect [options]="selectDMVStatus" [(ngModel)]="adminDashboard.state.selectedDMVStatus"></ngx-bootstrap-multiselect>
+            </div>
+            <div class="col-sm-12 mb-2">
+              <label> OCSE Status</label><br>
+              <ngx-bootstrap-multiselect [options]="OCSEStatusOptions" [(ngModel)]="adminDashboard.state.selectedOCSEStatus"></ngx-bootstrap-multiselect>
+            </div>
+            <label> Certification Issued Date </label>
+            <div class="col-sm-12">
+              <div class="mx-2 d-flex">
+                <div class="form-group" style="margin-right: .5rem;">
+                  <span class="form-label date-label">Start Date</span>
+                  <input id="startDate" [(ngModel)]="adminDashboard.state.modifiedStartDate" class="form-control date-input" type="date" [max]="today" required>
+                </div>
+                <div class="form-group">
+                  <span class="form-label date-label">End Date</span>
+                  <input id="endDate" [(ngModel)]="adminDashboard.state.modifiedEndDate" class="form-control date-input" type="date" [max]="today" required>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="btn_clear">
+              <button class="btn btn-primary me-2" data-bs-dismiss="modal" (click)="adminDashboard.filterData()">
+                Apply</button><button class="btn btn-outline-primary" (click)="clearButton()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

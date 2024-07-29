@@ -1,0 +1,42 @@
+<div class="faded-background">
+	<div data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content ">
+				<!-- Header -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">{{parent.title}}</h5>
+          <div class="view-form-status pe-5"></div>
+          <span class="close popcls_red" (click)="closeCamera()"><i class="fa-solid fa-xmark"></i></span>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div [ngClass]="{'col-sm-6': webcamImage?.imageAsDataUrl }">
+							<div class=" d-flex justify-content-center">
+								<div class="mb-1">
+									<webcam [height]="300" [width]="200" [trigger]="triggerObservable" *ngIf="showWebcam"
+										(imageCapture)="handleImage($event)" [allowCameraSwitch]="allowCameraSwitch"
+										[switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" [imageQuality]="1"
+										(cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)"></webcam>
+										<br>
+										<div class=" d-flex justify-content-center">
+											<button id="capture-camera" class="btn btn-sm btn-primary mx-2"
+												(click)="triggerSnapshot();">Capture</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="webcamImage?.imageAsDataUrl" [ngClass]="{'col-sm-6': webcamImage?.imageAsDataUrl }" class="d-flex justify-content-center">
+							<img id="imgview" [src]="webcamImage?.imageAsDataUrl" height="160px" style="border-radius: 5px;" />
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" (click)="closeCamera()">Cancel</button>
+					<button type="button" class="btn btn-primary" (click)="saveImage()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

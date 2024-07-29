@@ -1,0 +1,196 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import './assets/css/bootstrap.min.css';
+@import './assets/css/all.fonts.css';
+@import './assets/css/custom.css';
+
+
+
+.errormessage{
+  color: red;
+  font-size: 12px;
+}
+.p-datatable .p-datatable-thead > tr > th {
+    text-align: left;
+    padding: 1rem 1rem;
+    border: 1px solid #dee2e6;
+    border-width: 0 0 1px 0;
+    font-weight: 700;
+    color: #fff !important;
+    background: #00529b !important;
+    transition: box-shadow 0.2s;
+
+}
+.p-datatable .p-datatable-thead > tr{
+    height: 20px !important;
+}
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+    color: #fff !important;
+    margin-left: 0.5rem;
+}
+// .p-paginator-left-content, .p-paginator-right-content{
+//     display: none !important;
+// } shouldn't be globally declared
+.p-datatable .ui-datatable-scrollable-view .ui-datatable-scrollable-body {
+    min-height: 20px !important;
+}
+.p-input-icon-left > i:first-of-type{
+    left: 9.75rem !important;
+}
+.p-calendar .p-inputtext{
+  padding: 0.3rem 0.3rem !important;
+  border: 1px solid #909090!important;
+}
+.p-dropdown{
+  :focus{
+    box-shadow: none !important;
+  }
+}
+.p-dropdown{
+  border: 1px solid rgba(112, 112, 112, 0.65) !important;
+  height: 36px !important;
+  background-color: #fff !important;
+  border-radius: 6px !important;
+}
+.p-dropdown .p-dropdown-label{
+  padding-top: 0.3rem;
+}
+.p-dropdown-header{
+  *{height: 36px !important;}
+}
+// .autocomplete-container .suggestions-container{
+//     width: inherit !important;
+//   }
+.autocomplete-container .suggestions-container ul::-webkit-scrollbar {
+  width: 6px !important;
+  }
+  .autocomplete-container .suggestions-container ul::-webkit-scrollbar-track {
+  border-radius: 4px !important;
+  background-color: #EFEFEF!important;
+  }
+  .autocomplete-container .suggestions-container ul::-webkit-scrollbar-thumb {
+  border-radius: 4px !important;
+  background-color: #999999 !important;
+  }
+  .faded-background .modal-header{
+    background: transparent !important;
+    border: none;
+  }
+
+
+  /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.swal2-timer-progress-bar{
+  background-color: #dc3741 !important;
+}
+.hand-pointer{
+  cursor:pointer !important;
+}
+.dropdown-menu{
+  font-weight: normal !important;
+}
+.fa-window-close{
+  font-size: large !important;
+}
+// @media only screen and (max-width: 1040px) and (min-width: 990px) {
+//   .top56px-Screen1040px{
+//     top:56px !important;
+//   }
+// }
+.top56-for-icon-div {
+  @media only screen and (max-width: 1040px) and (min-width:990px){
+    div span{
+      top: 56px !important;
+    }
+    div div div.attachment-links{
+      margin-top: 1.3rem !important;
+      margin-left: .5rem !important;
+    }
+  }
+  @media only screen and (max-width: 569px){
+    div span{
+      top: 56px !important;
+    }
+    div div div.attachment-links{
+      margin-top: 1.4rem !important;
+       margin-left: -8px !important;
+    }
+  }
+}
+.top56-for-icon-div-duplicateform{
+  @media only screen and (max-width: 526px){
+    div span{
+      top: 56px !important;
+    }
+    div div div.attachment-links{
+      margin-top: 1.2rem !important;
+      // margin-left: .5rem !important;
+    }
+  }
+}
+
+.p-datatable>.p-datatable-wrapper::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+  }
+  .p-datatable>.p-datatable-wrapper::-webkit-scrollbar-track {
+  border-radius: 4px !important;
+  background-color: #EFEFEF!important;
+  }
+  .p-datatable>.p-datatable-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px !important;
+  height: 5px !important;
+  background-color: #999999 !important;
+  }
+  .p-datatable .p-datatable-header{
+    padding: 1.5rem 1rem;
+  }
+  .admin-user-dashboard-table .p-input-icon-left, .p-input-icon-right{
+    top:7px;
+  }
+  .admin-user-dashboard-table .p-input-icon-left > .p-inputtext{
+    padding: 0.2rem 1.4rem !important;
+    border-color:rgba(0, 0, 0, 0.87) ;
+    font-size: 12px;
+  }
+  .p-input-icon-left > .p-inputtext{
+    border:1px solid rgba(0, 0, 0, 0.87) ;
+  }
+  .p-inputtext:enabled:hover{
+    border-color:rgba(0, 0, 0, 0.87) ;
+  }
+  .offcanvas-body-one{
+    height: 100vh;
+    overflow-y: auto;
+  }
+  // .offcanvas-body-one::-webkit-scrollbar {
+  //   width: 5px;
+  //   height: 4px;
+  //   }
+  //   .offcanvas-body-one::-webkit-scrollbar-track {
+  //   border-radius: 4px !important;
+  //   background-color: #EFEFEF!important;
+  //   }
+  //   .offcanvas-body-one::-webkit-scrollbar-thumb {
+  //   border-radius: 10px !important;
+  //   height: 5px !important;
+  //   background-color: #999999 !important;
+  //   }
+  .verify-history-table .p-datatable .p-datatable-header{
+    padding: 1.5rem 1rem !important;
+    border-bottom: none;
+  }
+  .verify-history-table .p-input-icon-left, .p-input-icon-right{
+    top:4px;
+  }

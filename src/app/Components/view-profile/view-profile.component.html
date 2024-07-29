@@ -1,0 +1,1031 @@
+<!-- View Profile -->
+<div class="faded-background">
+	<div class="view-form offcanvas-view-form admin">
+		<div class="offcanvas-header-one d-flex justify-content-between">
+			<div class="header-section">
+				<h5>View Form</h5>
+			</div>
+			<span class="close hand-pointer no-print" (click)="closeViewForm()"><i title="Close" class="fa-solid fa-xmark"></i></span>
+			<div class="print-icon-section no-print">
+				<a><i class="fa-solid fa-print hand-pointer" title="Print" (click)="printThisPage()"></i></a>
+			</div>
+		</div>
+
+		<div class="offcanvas-body-one">
+			<!-- Profile Section -->
+			<div class="profile-section">
+				<div class="row align-items-center">
+					<div class="img-section col-sm-2">
+						<img *ngIf="this.viewState.data.photoLink" [src]="this.viewState.data.photoLink + this.viewState.data.sasToken" class="rounded-circle view-profile-img-w-h" />
+						<img *ngIf="!this.viewState.data.photoLink" src="../../../assets/img/default-pic.png" class="rounded-circle view-profile-img-w-h" />
+					</div>
+					<div class="profile-text col-sm-10">
+						<div class="name-d-text">
+							<span class="d-block text-dark name fw-bold-500 fs-16">
+								{{
+								this.viewState.data.applicantLastName ||
+								this.viewState.data.applicantFirstName ||
+								this.viewState.data.applicantMiddleName
+								? this.viewState.data.applicantFullName
+								: "-"
+								}}
+							</span>
+							<span class="d-block department text-secondary-one fw-bold-500">
+								{{
+								this.viewState.data.loginUserEmailId
+								? this.viewState.data.loginUserEmailId
+								: "-"
+								}}
+							</span>
+							<span class="d-block department text-secondary-one fw-bold-500">
+								{{
+								this.viewState.data.certificateType
+								? this.viewState.data.certificateType
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="sub-details ">
+							<div class="row">
+								<div class="text-secondary col col-sm-3">Date of Birth</div>
+								<div class="text-dark col col-sm-9 fw-bold-500">
+									{{
+									this.viewState.data.applicantDOB
+									? this.viewState.data.applicantDOB
+									: "-"
+									}}
+								</div>
+							</div>
+              <div class="row">
+                <div class="text-secondary col col-sm-3">
+                  Social Security Number
+                </div>
+                <div class="text-dark col col-sm-9 fw-bold-500">
+                  {{this.viewState.data.applicantSSN ? this.viewState.data.applicantSSN : "-"}}
+                </div>
+							</div>
+							<div class="row">
+								<div class="text-secondary col col-sm-3">DMV Number</div>
+								<div class="text-dark col col-sm-9 fw-bold-500">
+									{{
+									this.viewState.data.applicantDMVNumber
+									? "XXXXXX" +
+									this.viewState.data.applicantDMVNumber.substring(5, 9)
+									: "-"
+									}}
+								</div>
+							</div>
+							<div *ngIf="this.viewState.data.applicationType != 'Initial'" class="row">
+								<div class="text-secondary col col-sm-3">Old Certificate Number</div>
+								<div class="text-dark col col-sm-9 fw-bold-500">
+									{{
+									this.viewState.data.oldCertificateNumber
+									? this.viewState.data.oldCertificateNumber
+									: "-"
+									}}
+								</div>
+							</div>
+							<div *ngIf="this.viewState.data.applicationType != 'Initial'" class="row">
+								<div class="text-secondary col col-sm-3">Old Expiry Date</div>
+								<div class="text-dark col col-sm-9 fw-bold-500">
+									{{
+									this.viewState.data.oldCertificateExpiryDate
+									? this.viewState.data.oldCertificateExpiryDate
+									: "-"
+									}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Personal Information Section -->
+			<div class="personal-additional-information profile-additional-info">
+				<div class="personal-information my-3">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="header-section">
+								<h5>Personal Information</h5>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3 additional-information-row">
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Last Name</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantLastName
+								? this.viewState.data.applicantLastName
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">First Name</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantFirstName
+								? this.viewState.data.applicantFirstName
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Middle Name</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantMiddleName
+								? this.viewState.data.applicantMiddleName
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Gender</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantGender
+								? this.viewState.data.applicantGender == "F"
+								? "Female"
+								: this.viewState.data.applicantGender == "M"
+								? "Male"
+								: this.viewState.data.applicantGender
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-1 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Height</span><span
+								class="d-block text-truncate fw-bold-500">{{
+								this.viewState.height ? this.viewState.height : "-"
+								}}</span>
+						</div>
+						<div class="col-sm-1 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Weight</span><span
+								class="d-block text-truncate fw-bold-500">{{
+								this.viewState.data.applicantWeight
+								? this.viewState.data.applicantWeight + " lbs"
+								: "-"
+								}}</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Payment Status</span><span
+								class="d-block text-truncate fw-bold-500">{{
+								this.viewState.data.paymentStatus
+								? this.viewState.data.paymentStatus
+								: "-"
+								}}</span>
+						</div>
+					</div>
+					<div class="row additional-information-row">
+						<div class="col-sm-2 w-28 info-col">
+							<span class="text-secondary d-block text-truncate">Mailing/ Home Street Address</span><span
+								class="d-block text-truncate fw-bold-500" title="14th Street">{{
+								this.viewState.data.applicantAddress
+								? this.viewState.data.applicantAddress
+								: "-"
+								}}</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Apt. #</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantApartment
+								? this.viewState.data.applicantApartment
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">City</span><span
+								class="d-block text-truncate fw-bold-500">{{
+								this.viewState.data.applicantCity
+								? this.viewState.data.applicantCity
+								: "-"
+								}}</span>
+						</div>
+						<div class="col-sm-2 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">State</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantState
+								? this.viewState.data.applicantState
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-1 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Zip Code</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.applicantZipCode
+								? this.viewState.data.applicantZipCode
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-1 w-14 info-col">
+							<span class="text-secondary d-block text-truncate">Telephone No</span><span [title]="
+                  this.viewState.data.homeTelephoneNumber
+                    ? this.viewState.data.homeTelephoneNumber
+                    : '-'
+                " class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.homeTelephoneNumber
+								? this.viewState.data.homeTelephoneNumber
+								: "-"
+								}}
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="additional-information my-3">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="header-section">
+								<h5>Additional Information</h5>
+							</div>
+						</div>
+					</div>
+					<h6><b>Employer Information:</b></h6>
+					<div class="row additional-information-row">
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">Current Employer Name</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.currentEmployerName
+								? this.viewState.data.currentEmployerName
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">Street Address</span><span
+								class="d-block text-truncate fw-bold-500" title="">
+								{{
+								this.viewState.data.employerStreetAddress
+								? this.viewState.data.employerStreetAddress
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">City</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.employerCity
+								? this.viewState.data.employerCity
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">State</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.employerState
+								? this.viewState.data.employerState
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">Zip Code</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.employerZipcode
+								? this.viewState.data.employerZipcode
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate" title="Employment Start Date">Employment Start
+								Date</span><span class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.startDateOfEmployment
+								? this.viewState.data.startDateOfEmployment
+								: "-"
+								}}
+							</span>
+						</div>
+					</div>
+					<div class="m-4"></div>
+					<h6><b>School Information:</b></h6>
+					<div class="row additional-information-row">
+						<div class="col-sm-4 info-col">
+							<span class="text-secondary d-block text-truncate">NYSDOL Training Entity/ School Name</span><span
+								class="d-block text-truncate fw-bold-500">{{
+								this.viewState.data.schoolName
+								? this.viewState.data.schoolName
+								: "-"
+								}}</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">Street Address</span><span
+								class="d-block text-truncate fw-bold-500" title="">{{
+								this.viewState.data.schoolStreet
+								? this.viewState.data.schoolStreet
+								: "-"
+								}}</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">City</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.schoolCity
+								? this.viewState.data.schoolCity
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">State</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.schoolState
+								? this.viewState.data.schoolState
+								: "-"
+								}}
+							</span>
+						</div>
+						<div class="col-sm-2 info-col">
+							<span class="text-secondary d-block text-truncate">Zip Code</span><span
+								class="d-block text-truncate fw-bold-500">
+								{{
+								this.viewState.data.schoolZipCode
+								? this.viewState.data.schoolZipCode
+								: "-"
+								}}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Document Section -->
+			<div class="documents-information">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="header-section pb-2">
+							<h5>Documents</h5>
+						</div>
+					</div>
+				</div>
+				<div *ngIf="!this.viewState.showViewHistory">
+					<carousel [autoplay]="false" [cellsToShow]="this.cellsToShow" *ngIf="
+              this.viewState.data.dmvFrontLink ||
+              this.viewState.data.dmvBackLink ||
+              this.viewState.data.receiptLink ||
+              this.viewState.data.sscLink ||
+              this.viewState.data.nysLink ||
+              this.viewState.data.appendixLinks ||
+              this.viewState.data.experienceLinks ||
+              this.viewState.data.photoLink ||
+              this.viewState.data.signatureLink ||
+              this.viewState.data.reasonLink ||
+              this.viewState.data.requestChangeLink ||
+              this.viewState.data.courseCompletionLink ||
+              this.viewState.data.ocseLink ||
+              this.viewState.data.backgroundChekedLink
+            ">
+						<div *ngIf="this.viewState.data.photoLink" class="carousel-cell">
+							<div class="document-img">
+								<img [src]="
+										this.viewState.data.photoLink +
+										this.viewState.data.sasToken
+									" class="w-100" />
+								<div class="photo-name d-flex justify-content-between">
+									<div class="backdrop"></div>
+									<span class="d-block">
+										<a target="_blank" [href]="
+												this.viewState.data.photoLink +
+												this.viewState.data.sasToken
+											">
+											<i class="fa-solid fa-download"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.dmvFrontLink" class="carousel-cell">
+							<div class="document-img">
+								<img [src]="
+										this.viewState.data.dmvFrontLink +
+										this.viewState.data.sasToken
+									" class="w-100" />
+								<div class="photo-name d-flex justify-content-between">
+									<div class="backdrop"></div>
+									<span class="d-block">
+										<a [href]="
+												this.viewState.data.dmvFrontLink +
+												this.viewState.data.sasToken
+											" target="_blank">
+											<i class="fa-solid fa-download"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.dmvBackLink" class="carousel-cell">
+							<div class="document-img">
+								<img [src]="
+										this.viewState.data.dmvBackLink +
+										this.viewState.data.sasToken
+									" class="w-100" />
+								<div class="photo-name d-flex justify-content-between">
+									<div class="backdrop"></div>
+									<span class="d-block">
+										<a [href]="
+												this.viewState.data.dmvBackLink +
+												this.viewState.data.sasToken
+											" target="_blank">
+											<i class="fa-solid fa-download"></i>
+										</a>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.sscLink" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(this.viewState.data.sscLink) == 'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span>SSC</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.sscLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="
+										this.getExtension(this.viewState.data.sscLink) != 'pdf'
+									" class="img-div">
+									<img [src]="
+											this.viewState.data.sscLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.sscLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.experienceLinks" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(this.viewState.data.experienceLinks) ==
+										'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span class="d-block">Experience</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.experienceLinks +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="
+										this.getExtension(this.viewState.data.experienceLinks) !=
+										'pdf'
+									" class="img-div">
+									<img [src]="
+											this.viewState.data.experienceLinks +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.experienceLinks +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.receiptLink" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(this.viewState.data.receiptLink) ==
+										'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span class="d-block">Receipt</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.receiptLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="
+										this.getExtension(this.viewState.data.receiptLink) !=
+										'pdf'
+									" class="img-div">
+									<img [src]="
+											this.viewState.data.receiptLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.receiptLink +
+													this.viewState.data.sasToken
+												" target="_blank" rel="noopener noreferrer">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngFor="
+								let appendix of (this.viewState.data.appendixLinks && this.viewState.data.appendixLinks != '')?this.viewState.data.appendixLinks.split(','):'';
+								let i = index;
+							" [attr.data-index]="i" class="carousel-cell appendix">
+							<div class="document-img">
+								<div *ngIf="this.getExtension(appendix) == 'pdf'" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span class="d-block">Appendix {{ i + 1 }}</span>
+										<span class="d-block">
+											<a [href]="appendix + this.viewState.data.sasToken" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="this.getExtension(appendix) != 'pdf'" class="img-div">
+									<div><img [src]="appendix + this.viewState.data.sasToken" class="w-100" /></div>
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="appendix + this.viewState.data.sasToken" target="_blank"><i
+													class="fa-solid fa-download"></i></a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.ocseLink" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(this.viewState.data.ocseLink) == 'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span class="d-block">OCSE</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.ocseLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="
+										this.getExtension(this.viewState.data.ocseLink) != 'pdf'
+									" class="img-div">
+									<img [src]="
+											this.viewState.data.ocseLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.ocseLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.signatureLink" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(this.viewState.data.signatureLink) ==
+										'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span class="d-block">Signature</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.signatureLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="
+										this.getExtension(this.viewState.data.signatureLink) !=
+										'pdf'
+									" class="img-div">
+									<img [src]="
+											this.viewState.data.signatureLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.signatureLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.nysLink" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(this.viewState.data.nysLink) == 'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span>NYS</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.nysLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="img-div" *ngIf="
+										this.getExtension(this.viewState.data.nysLink) != 'pdf'
+									">
+									<img [src]="
+											this.viewState.data.nysLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.nysLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.backgroundChekedLink" class="carousel-cell">
+							<div class="document-img">
+								<div class="pdf-icon" *ngIf="
+										this.getExtension(
+											this.viewState.data.backgroundChekedLink
+										) == 'pdf'
+									">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span>Background Cheked </span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.backgroundChekedLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="img-div" *ngIf="
+										this.getExtension(
+											this.viewState.data.backgroundChekedLink
+										) != 'pdf'
+									">
+									<img [src]="
+											this.viewState.data.backgroundChekedLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.backgroundChekedLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.courseCompletionLink" class="carousel-cell">
+							<div class="document-img">
+								<div class="pdf-icon" *ngIf="
+										this.getExtension(
+											this.viewState.data.courseCompletionLink
+										) == 'pdf'
+									">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span>Course Completion </span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.courseCompletionLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="img-div" *ngIf="
+										this.getExtension(
+											this.viewState.data.courseCompletionLink
+										) != 'pdf'
+									">
+									<img [src]="
+											this.viewState.data.courseCompletionLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.courseCompletionLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.reasonLink" class="carousel-cell">
+							<div class="document-img">
+								<div class="pdf-icon" *ngIf="
+										this.getExtension(this.viewState.data.reasonLink) == 'pdf'
+									">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span>Reason</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.reasonLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div class="img-div" *ngIf="
+										this.getExtension(this.viewState.data.reasonLink) != 'pdf'
+									">
+									<img [src]="
+											this.viewState.data.reasonLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.reasonLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div *ngIf="this.viewState.data.requestChangeLink" class="carousel-cell">
+							<div class="document-img">
+								<div *ngIf="
+										this.getExtension(
+											this.viewState.data.requestChangeLink
+										) == 'pdf'
+									" class="pdf-icon">
+									<div class="d-flex justify-content-center"><img src="../assets/img/pdfImage.png" class="w-100" /></div>
+									<div class="document-name d-flex justify-content-between">
+										<span class="d-block">Request Change</span>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.requestChangeLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-file-arrow-down"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+								<div *ngIf="
+										this.getExtension(
+											this.viewState.data.requestChangeLink
+										) != 'pdf'
+									" class="img-div">
+									<img [src]="
+											this.viewState.data.requestChangeLink +
+											this.viewState.data.sasToken
+										" class="w-100" />
+									<div class="photo-name d-flex justify-content-between">
+										<div class="backdrop"></div>
+										<span class="d-block">
+											<a [href]="
+													this.viewState.data.requestChangeLink +
+													this.viewState.data.sasToken
+												" target="_blank">
+												<i class="fa-solid fa-download"></i>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</carousel>
+					<!-- For No Documents -->
+					<div *ngIf="
+              !(
+                this.viewState.data.dmvFrontLink ||
+                this.viewState.data.dmvBackLink ||
+                this.viewState.data.receiptLink ||
+                this.viewState.data.sscLink ||
+                this.viewState.data.nysLink ||
+                this.viewState.data.appendixLinks ||
+                this.viewState.data.experienceLinks ||
+                this.viewState.data.photoLink ||
+                this.viewState.data.signatureLink ||
+                this.viewState.data.reasonLink ||
+                this.viewState.data.requestChangeLink ||
+                this.viewState.data.courseCompletionLink ||
+                this.viewState.data.ocseLink ||
+                this.viewState.data.backgroundChekedLink
+              )
+            " class="no-documents">
+						No Documents Attached
+					</div>
+				</div>
+			</div>
+
+			<!-- View Approval Objection Rejection History Button Section -->
+			<div *ngIf="this.viewState.data.comments && this.viewState.data.comments != '[]'" class="view-approval-rejection">
+				<button class="btn view-history" (click)="showViewHistory()">
+					View Approval/Objection/Rejection History
+					<i class="fa fa-external-link" aria-hidden="true"></i>
+				</button>
+			</div>
+
+			<!-- Accept/Reject/Object/Cancel Section -->
+			<div *ngIf="this.state.userRole=='Admin'">
+				<div class="admin-view" *ngIf='this.viewState.data.status == "Pending" && (this.state.ocseStatus != "Pending" && this.state.ocseStatus != "Rejected")'>
+					<div class="container-fluid">
+						<div class="ms-TextField-wrapper text-field-fluent-ui">
+							<label for="TextField7" id="TextFieldLabel9" class="ms-Label root-141">
+								Reasons for Rejection/Objection/Acceptance
+								<span class="important-i">*</span>
+							</label>
+							<textarea *ngIf="this.viewState.errorComment" class="text-field-fluent-ui error-class"
+								placeholder="Reasons for Rejection/Objection/Acceptance" aria-multiline="true"
+								[(ngModel)]="viewState.comment" (change)="this.viewState.errorComment=false" required>
+							</textarea>
+							<textarea *ngIf="!this.viewState.errorComment" class="text-field-fluent-ui"
+								placeholder="Reasons for Rejection/Objection/Acceptance" aria-multiline="true"
+								[(ngModel)]="viewState.comment" required>
+							</textarea>
+						</div>
+						<div class="btn-sections my-3">
+							<div *ngIf='this.viewState.data.status == "Pending"' class="col-sm-12 text-end">
+								<button class="btn btn-secondary me-2" (click)="this.closeViewForm();"> Cancel</button>
+								<button class="btn btn-danger me-2" (click)='this.rejectObjectReason("Reject")'> Reject</button>
+								<button class="btn btn-warning me-2" (click)='this.rejectObjectReason("Object")'> Object</button>
+								<button class="btn btn-primary" (click)="onApprove()"> Approve</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- View History PopUp Page -->
+			<div class="faded-background" *ngIf="viewState.showViewHistory">
+
+				<div class="view-history">
+						<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h5 class="modal-title">View Approval/Objection/Rejection History</h5>
+							  <span class="close popcls_red" (click)="hideViewHistory()"><i class="fa-solid fa-xmark"></i></span>
+							</div>
+							<div class="modal-body">
+
+
+								  <div class="my-2 border-bottom pb-2" *ngFor="let comment of this.viewState.comments">
+									<div class="d-flex">
+										<div class="view-title">Approval Type:</div>
+										<div class="view-details">{{ comment.ApprovalType }}</div>
+									</div>
+									<div class="d-flex">
+										<div class="view-title">Approval Comments:</div>
+										<div class="view-details">{{ comment.Comment }}</div>
+									</div>
+									<div class="d-flex">
+										<div class="view-title">Approval Name:</div>
+										<div class="view-details">{{ comment.CommentedBy }}</div>
+									</div>
+									<div class="d-flex">
+										<div class="view-title">Approval On</div>
+										<div class="view-details">{{ comment.CommentedOn }}</div>
+									</div>
+
+								</div>
+							</div>
+
+						  </div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="faded-background" *ngIf="this.viewState.showLanguagePopup">
+	<div class="checkin-screen">
+		<div class="modal-header">
+			<div class="header-section">
+			</div>
+			<div class="view-form-status pe-5"></div>
+			<span class="close popcls_red" (click)="this.viewState.showLanguagePopup=false; this.viewState.selectedLanguage=''; this.viewState.errorLanguage=false;"><i class="fa-solid fa-xmark"></i></span>
+		</div>
+		<div class="modal-body">
+			<select *ngIf="!this.viewState.errorLanguage" [(ngModel)]="this.viewState.selectedLanguage" class="languageSelect form-select" type="dropdown">
+        <option value="" selected hidden>Select Exam Language</option>
+				<option *ngFor="let option of Languages" [value]="option.value">
+					{{option.label}}
+				</option>
+			</select>
+			<select *ngIf="this.viewState.errorLanguage" (change)="this.viewState.errorLanguage=false" [(ngModel)]="this.viewState.selectedLanguage" class="languageSelect error-class form-select" type="dropdown">
+				<option value="" selected hidden>Select Exam Language</option>
+        <option *ngFor="let option of Languages" [value]="option.value">
+					{{option.label}}
+				</option>
+			</select>
+		</div>
+		<div class='modal-footer justify-content-center'>
+			<button class='btn cancel-btn' (click)="this.viewState.showLanguagePopup=false; this.viewState.selectedLanguage=''; this.viewState.errorLanguage=false;">Cancel</button>
+			<button class='btn success-btn' (click)="languageSubmit()">Submit</button>
+		</div>
+	</div>
+</div>

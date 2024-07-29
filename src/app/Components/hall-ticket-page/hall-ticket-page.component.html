@@ -1,0 +1,300 @@
+<div *ngIf="this.state.isLoading" class="loader">
+  <div class="loader-ring"></div>
+  <span class="loader-text-submit">Please Wait...</span>
+</div>
+<div *ngIf="!this.state.isLoading">
+  <div *ngIf='this.state.userEmail && this.state.userName && (this.state.UserRole == "Applicant" || this.state.UserRole == "Supervisor" || this.state.UserRole == "User") && this.state.Results && this.state.Results.loginUserEmailId == this.state.userEmail'>
+    <div class='pdf-user-dashboard my-4'>
+      <div class='container-fluid'>
+        <div class='generatebtn mb-2 mt-2'>
+          <button class="btn btn-primary" (click)='this.state.viewDataId=this.state.Results.reqId; this.SendAndGenerate_PDF();'>
+            Click to Generate Hall Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="data" class='pdf download_format' style='font-size:11px'>
+      <div class="user-dashboard my-4">
+        <div class='container-fluid'>
+          <div class="hall-ticket-page" id="hall_ticket">
+            <table style='width:100%'>
+              <tr>
+                <td style='width: 15%; vertical-align: baseline;'>
+                  <div class="logo logo-section"><img src="../../../assets/img/logo.png" alt="logo" />
+                  </div>
+                </td>
+                <td style="width:85%">
+                  <div class=''>
+                    <div class='text-center fw-bold text-decoration-underline'>New York City Department of
+                      Environmental Protection<br />
+                      Asbestos Control Program: Training and Certification Unit (TCU)</div>
+                    <div class='text-center'>59-17 Junction Blvd, 8th Floor</div>
+                    <div class='text-center'>Flushing, NY 11373</div>
+                    <div class='text-center'>Telephone: 718 595 3693/3695</div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <div class='d-flex mt-3'>
+              <div style="width:28%">
+                <div class='guests-name-list'>
+                  <div class='mb-5'>
+                    <div class='fw-bold'>Angela Licata</div>
+                    <div class=' '>Deputy Commissioner Of Sustainability</div>
+                  </div>
+                  <div class='mb-5'>
+                    <div class='fw-bold '>Mark Page</div>
+                    <div class=' '>Assistant Commissioner Environmental Compliance</div>
+                  </div>
+                  <div class='mb-5'>
+                    <div class='fw-bold '>Carlstien Lutchmedial </div>
+                    <div class=' '>Director</div>
+                    <div class=''>Asbestos Control Program</div>
+                  </div>
+                  <div class='mb-5'>
+                    <div class='fw-bold '>Kim-Lin Ramsawak</div>
+                    <div class=' '> Director</div>
+                    <div class=' '>Training & Certification Unit Asbestos Control Program</div>
+                  </div>
+                  <div class='mb-5'>
+                    <div class='fw-bold'>59-17 Junction Boulevard</div>
+                    <div class='fw-bold'>8th Floor</div>
+                    <div class='fw-bold'>Flushing, NY 11373</div>
+                  </div>
+                </div>
+              </div>
+              <div class='right-section tab-rightsection' style="width: 70%">
+                <div class='w-80'>
+                  <table style=" width: 100%">
+                    <tr>
+                      <th style="width:30%; vertical-align: baseline;">Name :</th>
+                      <td>{{this.state.Results.applicantFirstName + " " + this.state.Results.applicantMiddleName + " "
+                        + this.state.Results.applicantLastName}}</td>
+                      <td rowSpan={3}></td>
+                    </tr>
+                    <tr>
+                      <th style="width: 30%; vertical-align: baseline;">Address :</th>
+                      <td>{{this.state.Results.applicantAddress}}</td>
+                    </tr>
+                    <tr>
+                      <th style="width:30%; vertical-align: baseline;">City :</th>
+                      <td>{{this.state.Results.applicantCity}}</td>
+                    </tr>
+                    <tr>
+                      <th style="width: 30%; vertical-align: baseline;">State :</th>
+                      <td>{{this.state.Results.applicantState}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class='w-20'>
+                  <img [src]="'data:image/png;base64,' + this.state.Results.photoLink" />
+                </div>
+                <div class='candiate-details'>
+                  <p>You are scheduled to take the <span>NYC DEP</span> Asbestos
+                    <b>{{this.state.Results.certificateType}}</b> exam on
+                    <b>{{moment(this.state.Results.examSlotDate).format('MM/DD/YYYY')}}</b> at 
+                    <span *ngIf="this.state.SlotTime =='10am'">10:00 am</span>
+                    <span *ngIf="this.state.SlotTime !='10am'">2:00 pm</span> .The language of the exam will be in
+                    {{this.state.preferredLanguage}}.<span class='fw-bold'> Bring this letter to the exam.</span>
+                  </p>
+                  <p>Please arrive at the exam site between 
+                    <span *ngIf='this.state.SlotTime == "10am"'>9:45 am and 10:00 am</span>
+                    <span *ngIf='this.state.SlotTime != "10am"'>1:45 pm and 2:00 pm</span>.
+                    <span class='fw-bold'>You will not be permitted to sit for the exam after 
+                      <span *ngIf='this.state.SlotTime == "10am"'>10:00 am</span>
+                      <span *ngIf='this.state.SlotTime != "10am"'>2:00 pm</span>. 
+                    </span>
+                  </p>
+                </div>
+                <div class='report-details'>
+                  <table>
+                    <tr>
+                      <td>Report to: </td>
+                      <td>
+                        <span>NYC Department of Environmental Protection</span><br>
+                        59-17 Junction Blvd, 8th Floor<br>
+                        Flushing, NY 11373<br>
+                        Telephone: 718 595 3693/3695
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class=''>
+                  <p>
+                    <span class='fw-bold'>IMPORTANT: </span>
+                    Visitors are required to wear a face mask or
+                    sufficient face covering.
+                    Visitors are required to have their temperatures taken, hand sanitize, and complete the
+                    health screening form, prior to sitting for the exam. Visitors without a face mask
+                    or sufficient face covering will not be permitted to sit for the exam.
+                    Visitors whose temperature exceeds 100.4 degrees F will not be permitted to sit for the exam.
+                    Visitors must maintain social distancing of 6 feet or more while inside the DEP building.
+                  </p>
+                  <p>You are <span class='fw-bold'>not</span> allowed to bring backpacks/bookbags into the
+                    building.
+                    Security reserves the right to deny access if backpacks/bookbags are seen.
+                    The use of cellular phones are <span class='fw-bold'>not</span> permitted in the exam room.
+                    The NYC DEP
+                    reserves the right to deny taking of or finishing of any exam when the applicant
+                    is found to be using a cellular phone.
+                  </p>
+                  <p>If you cannot attend the exam, you may:</p>
+                    <ol class='unorder-list'>
+                      <p>
+                      <li> Mail the original letter to the office at: 59-17 Junction Blvd, 8th Floor
+                        Flushing, NY 11373 with a note requesting a new date.
+                      </li>
+                      </p>
+                    </ol>
+                  <!-- </p> -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class='mob-pdf'>
+      <div class='container-fluid'>
+        <div class="hall-ticket-page" id="hall_ticket">
+          <div class='row'>
+            <div class='col-sm-12 mb-2'>
+              <div class="logo text-center"><img src="../../../assets/img/logo.png" alt="logo" /></div>
+            </div>
+            <div class='col-sm-12'>
+              <div class=''>
+                <div class='text-center fw-bold text-decoration-underline'>New York City Department of
+                  Environmental Protection<br />
+                  Asbestos Control Program: Training and Certification Unit (TCU)</div>
+                <div class='text-center'>59-17 Junction Blvd, 8th Floor</div>
+                <div class='text-center'>Flushing, NY 11373</div>
+                <div class='text-center'>Telephone: 718 595 3693/3695</div>
+              </div>
+            </div>
+          </div>
+          <div class='d-flex flex-wrap mt-3'>
+            <div>
+              <div class='guests-name-list'>
+                <div class='mb-2'>
+                  <div class='fw-bold'>Angela Licata</div>
+                  <div class=' '>Deputy Commissioner Of Sustainability</div>
+                </div>
+                <div class='mb-2'>
+                  <div class='fw-bold '>Mark Page</div>
+                  <div class=' '>Assistant Commissioner Environmental Compliance</div>
+                </div>
+                <div class='mb-2'>
+                  <div class='fw-bold '>Carlstien Lutchmedial </div>
+                  <div class=' '>Director</div>
+                  <div class=''>Asbestos Control Program</div>
+                </div>
+                <div class='mb-2'>
+                  <div class='fw-bold '>Kim-Lin Ramsawak</div>
+                  <div class=' '> Director</div>
+                  <div class=' '>Training & Certification Unit Asbestos Control Program</div>
+                </div>
+                <div class='mb-2'>
+                  <div class='fw-bold'>59-17 Junction Boulevard</div>
+                  <div class='fw-bold'>8th Floor</div>
+                  <div class='fw-bold'>Flushing, NY 11373</div>
+                </div>
+              </div>
+            </div>
+            <div class='right-section tab-rightsection w-100'>
+              <div class='mob-div'>
+                <table style="width: 100%;">
+                  <tr>
+                    <th style="width: 30%; vertical-align: baseline;">Name :</th>
+                    <td>{{this.state.Results.applicantFirstName + " " + this.state.Results.applicantMiddleName + " " +
+                      this.state.Results.applicantLastName}}</td>
+                    <td rowSpan={3}></td>
+                  </tr>
+                  <tr>
+                    <th style="width: 30%; vertical-align: baseline;">Address :</th>
+                    <td>{{this.state.Results.applicantAddress}}</td>
+                  </tr>
+                  <tr>
+                    <th style="width: 30%; vertical-align: baseline;">City :</th>
+                    <td>{{this.state.Results.applicantCity}}</td>
+                  </tr>
+                  <tr>
+                    <th style="width: 30%; vertical-align: baseline;">State :</th>
+                    <td>{{this.state.Results.applicantState}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class='w-50' style="margin: 0 auto;">
+                <img [src]="'data:image/png;base64,' + this.state.Results.photoLink" class="w-100"/>
+              </div>
+              <div class='candiate-details'>
+                <p>You are scheduled to take the <span>NYC DEP</span> Asbestos
+                  <b>{{this.state.Results.certificateType}}</b> exam on
+                  <b>{{moment(this.state.Results.examSlotDate).format('MM/DD/YYYY')}}</b> at 
+                  <span *ngIf='this.state.SlotTime =="10am"'>10:00 am</span>
+                  <span *ngIf='this.state.SlotTime !="10am"'>2:00 pm</span>. 
+                  The language of the exam will be in {{this.state.preferredLanguage}}.
+                  <span class='fw-bold'> Bring this letter to the exam.</span>
+                </p>
+                <p>Please arrive at the exam site between  
+                  <span *ngIf='this.state.SlotTime == "10am"'>9:45 am and 10:00 am</span>
+                  <span *ngIf='this.state.SlotTime != "10am"'>1:45 pm and 2:00 pm</span>. 
+                  <span class='fw-bold'>You will not be permitted to sit for the exam after 
+                    <span *ngIf='this.state.SlotTime == "10am"'>10:00 am</span>
+                    <span *ngIf='this.state.SlotTime != "10am"'>2:00 pm</span>.
+                  </span>
+                </p>
+              </div>
+              <div class='report-details'>
+                <table>
+                  <tr>
+                    <td>Report to: </td>
+                    <td>
+                      <span>NYC Department of Environmental Protection</span><br>
+                      59-17 Junction Blvd, 8th Floor<br>
+                      Flushing, NY 11373<br>
+                      Telephone: 718 595 3693/3695
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class=''>
+                <p><span class='fw-bold'>IMPORTANT: </span>Visitors are required to wear a face mask or sufficient
+                  face covering.
+                  Visitors are required to have their temperatures taken, hand sanitize, and complete the
+                  health screening form, prior to sitting for the exam. Visitors without a face mask
+                  or sufficient face covering will not be permitted to sit for the exam.
+                  Visitors whose temperature exceeds 100.4 degrees F will not be permitted to sit for the exam.
+                  Visitors must maintain social distancing of 6 feet or more while inside the DEP building.</p>
+                <p>You are <span class='fw-bold'>not</span> allowed to bring backpacks/bookbags into the building.
+                  Security reserves the right to deny access if backpacks/bookbags are seen.
+                  The use of cellular phones are <span class='fw-bold'>not</span> permitted in the exam room. The
+                  NYC DEP
+                  reserves the right to deny taking of or finishing of any exam when the applicant
+                  is found to be using a cellular phone.</p>
+                <br>
+                <p>If you cannot attend the exam, you may:</p>
+                  <ol class='unorder-list'>
+                    <p>
+                    <li> Mail the original letter to the office at: 59-17 Junction Blvd, 8th Floor
+                      Flushing, NY 11373 with a note requesting a new date. </li>
+                    </p>
+                  </ol>
+                <!-- </p> -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <div class='page-restrict' *ngIf='!(this.state.userEmail && this.state.userName && (this.state.UserRole == "Applicant" || this.state.UserRole ==
+  "Supervisor" || this.state.UserRole == "User") && this.state.Results && this.state.Results.loginUserEmailId == this.state.userEmail)'>
+    <div class='page-exist'>The page you were looking for does not exist.</div>
+    <div class='restrict-message'>You have mistyped the address or the page may have moved.</div>
+    <a href="/home">Go back to the homepage</a>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="user-dashboard my-4">
+    <div class="container-fluid">
+        <div class="userdash-board-application-instructions">
+            <div class="application-instructions-text">
+                
+                <div class="header-section pb-2"><h5> ASBESTOS CERTIFICATION APPLICATION INSTRUCTIONS</h5></div>
+
+                <!-- First Page -->
+                <div class="instruction-points" *ngIf="state.showFirst">
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> Read the requirements for asbestos handler, restricted handler, supervisor, and/or investigator certification as detailed in Title 15, Chapter 1 of the Rules of the City of New York. A copy of the rules can be found on the NYC DEP website. </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> Complete all items on the application. Ensure that all the information submitted is correct. </div>
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span>  All initial applications require a clear copy of the applicant’s current New York State Driver's License or Non-Driver ID card. <span class='fw-bold'>Note: </span>for <span class='fw-bold'>Renewal</span> Applications: there is no need to resubmit a copy of a valid NYS DMV-issued ID card, unless requested by the Department. </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All initial applications require a clear copy of the applicant’s Social Security Card. <span class='fw-bold'>Note:</span> for <span class='fw-bold'>Renewal</span> Applications: there is no need to resubmit a copy of the Social Security Card, unless requested by the Department. </div>
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span>  Attach clear copies of all current NYC DEP-issued certificates and/or all current NYSDOL-issued licenses or certificates, which may be required for the application. </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All applications <span class='fw-bold'>(both initial and renewal)</span> require a clear copy of the New York State Department of Health (NYS DOH) Certificate of Asbestos Safety Training Form DOH2832 for the asbestos certification type requested (handler, restricted handler, supervisor, or investigator/inspector). Note: the DOH2832 form must be valid at the time of application submission.</div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All applications <span class='fw-bold'>(both initial and renewal)</span> require a clear and up-to-date photo of the applicant. Note: the photographs should show the applicant’s full face and should not contain hats, eyeglasses, or any other obstructions to block the face. </div>
+
+                    <div class='col-sm-12 next-btn text-end'>
+                        <a class="m-3" (click)="changePage(1,'right')"><i class="fa-solid fa-angle-right"></i></a>
+                    </div>
+                    
+                </div>
+                <!-- Second Page -->
+                <div class="instruction-points" *ngIf="state.showSecond">
+                    
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All applications require payment of the application fee. This fee in <span class='fw-bold'>non-refundable.</span> </div>
+
+                    <ol type="a" class="priceList">  
+                        <li>Handler initial or renewal: ${{state.feeStructure.Handler}}.00</li>	
+                        <li>Restricted handler initial or renewal: ${{state.feeStructure.HandlerRestricted}}.00</li>	
+                        <li>Supervisor initial or renewal: ${{state.feeStructure.Supervisor}}.00</li>
+                        <li>Investigator initial or renewal: ${{state.feeStructure.Investigator}}.00</li>
+                        <li>Duplicate: ${{state.feeStructure.Duplicate}}.00</li>
+                    </ol>
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All initial <span class='fw-bold'>Supervisor</span> applications require Appendix C and Appendix F. <br/>
+                    <span class='fw-bold'>Note:</span> Appendix F must be notarized, and jobs must be listed in chronological order. 
+                    </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All initial <span class='fw-bold'>Investigator</span> applications require Appendix A, B, D, and E. <br/>
+                    <span class='fw-bold'>Note:</span> Appendix A must be completed and signed by a physician within the last twelve (12) months prior to the date of application submission.<br/>
+                    <span class='fw-bold'>Note:</span> Appendix B must be completed and signed by an Industrial Hygienist within the last three (3) months prior to the date of application submission.<br/>
+                    <span class='fw-bold'>Note:</span> Appendix E must be notarized, and surveys must be listed in chronological order. 
+                    </div>
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span>  All initial <span class='fw-bold'>Investigator</span> applications require a notarized letter of reference from past and/or present employers to verify experience in relevant building/ hazard assessment work. </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All initial Investigator applications require a clear copy of proof of successful completion of an introductory 8-hour minimum blueprint reading course. </div>
+                    
+                    <div class='col-sm-12 text-end prv-nex-btn'>
+                        <a class="m-3" (click)="changePage(2,'left')"><i class="fa-solid fa-angle-left"></i></a>
+                        <a class="m-3" (click)="changePage(2,'right')"><i class="fa-solid fa-angle-right"></i></a>
+                    </div>    
+                    
+                </div>
+                <!-- Third Page -->
+                <div class="instruction-points"  *ngIf="state.showThird">
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All renewal <span class='fw-bold'>Investigator</span> applications require Appendix A and B. <br/>
+                    <span class='fw-bold'>Note:</span> Appendix A must be completed and signed by a physician within the last twelve (12) months prior to the date of application submission.<br/>
+                    <span class='fw-bold'>Note:</span> Appendix B must be completed and signed by an Industrial Hygienist within the last three (3) months prior to the date of application submission.<br/>
+                    </div>
+
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> All <span class='fw-bold'>duplicate</span> applications require a notarized letter explaining the reason for the duplicate request (lost, stolen, damaged, or change of personal information – including name change). In lieu of a notarized letter, the applicant may submit a clear copy of a police report as the reason for the duplicate request (lost or stolen). </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> Make and keep copies of all supporting documentation submitted as part of the application. </div>
+                    <div><span class='icon'><i class="fa-solid fa-hand-point-right"></i></span>  The Department reserves the right to reject any application during the review process. If additional documentation is required by the Department, the applicant will be contacted. </div>
+                    <div> <span class='icon'><i class="fa-solid fa-hand-point-right"></i></span> Asbestos Control Program: Training and Certification Unit (TCU) contact information: </div>
+                    <div>
+                    Address: 59-17 Junction Blvd, 8th Floor, Flushing, NY 11373</div>
+                    <div>Telephone: (718) 595-3693</div>
+                    <div>Email: AsbestosTCU@dep.nyc.gov </div>
+                    <div><span class='fw-bold'>Note:</span> The Asbestos Control Program TCU Front Desk is <span class='fw-bold'>closed.</span> 
+                    </div>
+                    
+                    <div class='col-sm-12 text-end prev-btn'>
+                        <a class="m-3" (click)="changePage(3,'left')"><i class="fa-solid fa-angle-left"></i></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

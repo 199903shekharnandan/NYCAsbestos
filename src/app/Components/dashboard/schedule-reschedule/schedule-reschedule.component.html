@@ -1,0 +1,62 @@
+<div *ngIf="this.state.userEmail" class="faded-background">
+	<div class="modal" id="reschedule-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content ">
+				<!-- Header -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">
+						{{this.dashboardState.type=="Schedule"?"Schedule":"Reschedule"}}
+					</h5>
+          <div class="view-form-status pe-5"></div>
+			<span class="close popcls_red" (click)="onCancel()"><i class="fa-solid fa-xmark"></i></span>
+				</div>
+				<!-- Loader -->
+				<div *ngIf="this.state.isLoading" class="spin-loader">
+					<div class="ring"></div>
+					<span class="loader-text-submit">Scheduling...</span>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="mb-3">
+								<label class="col-form-label">Date</label><span class="important-i">*</span>
+								<input type="date" step="7" [min]="moment(this.nextWednesday).format('YYYY-MM-DD')" (keydown)="disableKeyBoard()"
+									 placeholder="Select Exam Date"
+									class="scheduledate form-control" (change)="dateChange($event); CheckSlot();"/>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="mb-3 rescheduleSelect">
+								<label class="col-form-label">Slot Time</label><span class="important-i">*</span>
+								<div>
+									<select [(ngModel)]="state.SelectedSlot" class="form-select form-control" type="dropdown">
+										<option selected hidden [value]="null" *ngIf="!state.noSlots">Select Slot</option>
+										<option *ngFor="let item of state.SelectSlotValues" [value]="item.value">{{item.label}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- For Re-Schedule -->
+					<div class="row" *ngIf='this.dashboardState.type=="Reschedule"'>
+						<div class="mb-3">
+							<label class="col-form-label">Reason for Reschedule</label><span class="important-i">*</span>
+								<textarea class="form-control"
+									placeholder="Reason for Reschedule" aria-multiline="true"
+									[(ngModel)]="this.state.Comment" required>
+								</textarea>
+						</div>
+					</div>
+					<div *ngIf="state.errorSelectedSlot || this.state.errorComment" class="errormessage">Please fill all the mandatory<span class="important-i">*</span> fields.</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" (click)="onCancel()">Cancel</button>
+					<button *ngIf='this.dashboardState.type =="Schedule"' type="button" class="btn btn-primary" (click) = "this.onSubmit()">Schedule</button>
+					<button *ngIf='this.dashboardState.type !="Schedule"' type="button" class="btn btn-primary" (click) = "this.onSubmit()">Reschedule</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

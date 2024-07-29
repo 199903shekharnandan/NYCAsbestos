@@ -1,0 +1,22 @@
+.readonly{
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: #e9ebee !important;
+}
+.btn {
+  font-size: 12px !important;
+  border-radius: 3px !important;
+}
+.p-dropdown .p-dropdown-label{
+  padding-top: 12px;
+}
+.download-icon-required{
+  display: flex;
+  justify-content: flex-end;
+}
+@media only screen and (max-width: 576px) {
+  .download-icon-required{
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}

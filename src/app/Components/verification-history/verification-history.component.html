@@ -1,0 +1,130 @@
+<div *ngIf='Constants.userEmail && Constants.UserRole == "Inspector"'>
+  <div class="user-dashboard my-4 attendance-logs">
+    <div class="container-fluid">
+      <!-- Loader -->
+      <div class="loader" *ngIf="isLoading">
+        <div class="loader-ring"></div>
+        <span class="loader-text-submit">Loading...</span>
+      </div>
+
+      <div class="inspector-filter-buttons" *ngIf="!isLoading">
+        <div class="card">
+          <div class='fliter-card'>
+            <div class="jobid-serach">
+              <div>
+                <div>
+                  <div><input pInputText type="text" id="TextField8" #jobId placeholder="Enter Job Id"
+                      [(ngModel)]="keyword" aria-invalid="false" ></div>
+                </div>
+              </div><button type="button" class="btn btn-primary" (click)="this.GetVerificationHistory()">Find</button>
+            </div>
+            <div class="filter-dates1">
+              <div>
+                <label data-shrink="true" for="date" id="date-label">Login Date</label>
+                <div>
+                  <input aria-invalid="false" id="date" type="date" [value]="applicationEndDate" max="{{TODAYdate}}"
+                    (change)="ngOnChanges(this.logDate.value)" #logDate>
+                </div>
+                <span class="refresh-btn">
+                  <button (click)="refresh()" id="refresh" tabindex="0" type="button" aria-label="delete">
+                    <i class="fa fa-refresh" style="color: black" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="user-dashboard">
+        <div>
+          <div class="user-dashboard-table admin-user-dashboard-table verify-history-table">
+            <div class="role-table mx-2">
+              <p-table [value]="dataObj" #dt1 class="tblRole" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,15,20]" [responsive]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [globalFilterFields]="['verifiedDate','applicantFirstName','applicantMiddleName','applicantLastName', 'certificateNumber', 'certificateType', 'expiryDate', 'inspectorName', 'verifierName', 'jobID']">
+                <ng-template pTemplate="caption">
+                  <div class="p-d-flex w-100 d-flex align-items-center" style="justify-content: space-between">
+                    <h5>Attendance</h5>
+                     <span class="p-input-icon-left p-ml-auto">
+                      <div class="input-group">
+                        <span class="input-group-text bg-none" id="basic-addon1"><i class="pi pi-search"></i></span>
+                        <input type="text" class="form-control bg-left" placeholder="Search" (input)="
+                        dt1.filterGlobal(
+                          $any($event.target).value,
+                          'contains'
+                        )
+                      ">
+                      </div>
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="the" id="the">S.No.</th>
+                    <th class="the">LoginDate</th>
+                    <th class="the" pSortableColumn="applicantFirstName">Applicant Name<p-sortIcon field="applicantFirstName"></p-sortIcon> </th>
+                    <th class="the" pSortableColumn="certificateNumber">Certificate No.<p-sortIcon field="certificateNumber"></p-sortIcon></th>
+                    <th class="the" pSortableColumn="certificateType">Certificate Type<p-sortIcon field="certificateType"></p-sortIcon></th>
+                    <th class="the" pSortableColumn="expiryDate">Expiry Date<p-sortIcon field="expiryDate"></p-sortIcon> </th>
+                    <th class="the" pSortableColumn="inspectorName">Inspector Name<p-sortIcon field="inspectorName"></p-sortIcon></th>
+                    <th class="the" pSortableColumn="verifierName">Supervisor Name<p-sortIcon field="verifierName"></p-sortIcon></th>
+                    <th class="the" pSortableColumn="jobID">Job ID<p-sortIcon field="jobID"></p-sortIcon></th>
+                    <th class="the" pSortableColumn="isVerified">Verified Status<p-sortIcon field="isVerified"></p-sortIcon></th>
+                  </tr>
+                </ng-template>
+                <ng-template class="table-body" pTemplate="body" let-data let-i="rowIndex">
+                  <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{data.verifiedDate}}</td>
+                    <td>{{data.applicantFirstName+" "+data.applicantMiddleName+" "+data.applicantLastName}}
+                    </td>
+                    <td>{{data.certificateNumber}}</td>
+                    <td>{{data.certificateType}}</td>
+                    <td>{{data.expiryDate | date: "MM/dd/yyyy"}}</td>
+                    <td>{{data.inspectorName}}</td>
+                    <td>{{data.verifierName}}</td>
+                    <td #jobfind>{{data.jobID}}</td>
+                    <td>
+                      <span *ngIf="data.isVerified else elseStatement" class="status-approved">Verified</span>
+                      <ng-template #elseStatement>
+                        <button type="button" class="btn btn-primary" (click)="verifyCertificate(data);">Verify</button>
+
+                      </ng-template>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='!(Constants.userEmail && Constants.UserRole == "Inspector")'>
+  <div class='page-restrict'>
+    <div class='page-exist'>The page you were looking for does not exist.</div>
+    <div class='restrict-message'>You have mistyped the address or the page may have moved.</div>
+    <a href="/home">Go back to the homepage</a>
+  </div>
+</div>
+
+
+<!-- Certificate-Modal -->
+<div class="faded-background" *ngIf="isVerifyCertificate">
+  <div class="modal" id="reschedule-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="view-form-status pe-5"></div>
+			<span class="close popcls_red" (click)="isVerifyCertificate=false;"><i class="fa-solid fa-xmark"></i></span>
+        <div class="modal-body">
+          <app-verifycertificate [ParentData]="this.verificationHistoryData"></app-verifycertificate>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

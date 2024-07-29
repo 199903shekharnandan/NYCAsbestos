@@ -1,0 +1,129 @@
+<div class="user-dashboard my-4" *ngIf="isApplicant">
+  <div class="container-fluid">
+    <div class="user-dashboard">
+      <div class="user-dashboard-table custom-dashboard-table">
+
+        <p-table [value]="dataObj" #dt1 class="dashboardTable tblRole">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="header">S.No.</th>
+              <th class="header">Applicant Name </th>
+              <th class="header">Application Type </th>
+              <th class="header">Certification Type </th>
+              <th class="header">Certificate Number</th>
+              <th class="header">Expiry Date</th>
+              <th class="header">Submitted On </th>
+              <th class="header">Receipt No </th>
+              <th class="header">Application Status</th>
+              <th class="header">OCSE Status </th>
+              <th class="header">Exam Status</th>
+              <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data let-i="rowIndex">
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{data.applicantFirstName+ " "+(data.applicantMiddleName!=""? data.applicantMiddleName+" ": "")+data.applicantLastName}}</td>
+              <td>{{data.applicationType}}</td>
+              <td>{{data.certificateType}}</td>
+              <td>{{data.certificateNumber}}</td>
+              <td>{{data.expiryDate?moment(data.expiryDate).format("MM/DD/YYYY"):""}}</td>
+              <td>{{data.submittedOn?moment.utc(data.submittedOn, 'YYYYMMDD HH:mm:ss.fff').clone().tz(Constants.TimeZone).format("MM/DD/YYYY"):""}}</td>
+              <td>{{data.paymentResponseXML}}</td>
+              <td>
+                <span *ngIf="data.status=='Pending'" class="status-pending">Pending</span>
+                <span *ngIf="data.status=='Approved'" class="status-approved"> Approved</span>
+                <span *ngIf="data.status=='Rejected'" class="status-rejected"> Rejected</span>
+                <span *ngIf="data.status=='Suspended'" class="status-rejected"> Suspended</span>
+                <span *ngIf="data.status=='Draft'" class="status-draft"> Draft</span>
+                <span *ngIf="data.status=='Objected'" class="status-discarded"> Objected</span>
+              </td>
+              <td>
+                <span *ngIf="data.applicationType=='Duplicate'" class="status-pending">N/A</span>
+                <span *ngIf="data.ocseStatus=='Approved'" class="status-approved"> Approved</span>
+                <span *ngIf="data.ocseStatus=='Rejected'" class="status-rejected"> Rejected</span>
+                <span *ngIf="data.ocseStatus=='Pending'" class="status-pending"> Pending</span>
+              </td>
+              <td>
+                 <span *ngIf="data.examStatus=='Scheduled'" class="status-pending">Scheduled {{data.examSlotDate | date: "MM/dd/yyyy"}}</span>
+                 <span *ngIf="data.applicationType!='Initial'; else elseStatement" class="status-pending"> N/A</span>
+                 <ng-template #elseStatement>
+                  <span *ngIf="data.status=='Draft'&& (data.examStatus==null || data.examStatus=='')">-</span>
+                  </ng-template>
+                <span *ngIf="data.examStatus=='Rescheduled'" class="status-pending"> Rescheduled</span>
+                <span *ngIf="data.examStatus=='Failed'" class="status-rejected"> Failed</span>
+                <span *ngIf="data.examStatus=='Passed'" class="status-approved"> Passed</span>
+                <span *ngIf="data.examStatus=='Incompleted'" class="status-pending"> Incompleted</span>
+
+              </td>
+              <td>
+                <div class="dropdown view-dropdown">
+                  <span class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis"></i>
+                  </span>
+                  <ul *ngIf='data.applicationType=="Initial"' class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <a class="dropdown-item" data-toggle="modal" data-target="#myModal"
+                      (click)="openViewForm(data)">View</a>
+                    </li>
+                    <li *ngIf='data.status == "Draft" || data.status == "Objected"'>
+                      <a class="dropdown-item" (click)="openEdit(data)">Edit</a>
+                    </li>
+                    <li *ngIf='data.status == "Draft" && data.paymentStatus.toLowerCase() != "paid"'>
+                      <a class="dropdown-item" (click)="discardDraftClick(data)">Discard</a>
+                    </li>
+                    <li *ngIf='(data.examStatus == "Passed") || (data.examStatus == "Failed")'>
+                      <a class="dropdown-item" (click)="getRes(data)">Get Result</a>
+                    </li>
+                    <li *ngIf='(data.status == "Approved" && data.examStatus == "" && data.ocseStatus == "Approved") || (data.status == "Approved" && data.examStatus == null && data.ocseStatus == "Approved")'>
+                      <a class="dropdown-item" (click)="scheduleExam('Schedule',data)" >Schedule Exam</a>
+                    </li>
+                    <li *ngIf='(data.examStatus == "Scheduled" || data.examStatus == "Incompleted" || data.examStatus == "Failed") && data.status == "Approved" && data.ocseStatus == "Approved"'>
+                      <a class="dropdown-item" (click)="scheduleExam('Reschedule',data)" >Reschedule Exam</a>
+                    </li>
+                    <li *ngIf='(data.examStatus == "Failed" && (data.certificationType == "Handler Restricted" || data.certificationType == "Handler" || data.certificationType == "Supervisor") && data.failedCount < 4 && data.ocseStatus == "Approved") || (data.examStatus == "Failed" && (data.certificationType == "Investigator") && data.failedCount < 3 && data.ocseStatus == "Approved")'>
+                      <a class="dropdown-item" (click)="scheduleExam('Reschedule',data)" >Reschedule Exam</a>
+                    </li>
+                    <li *ngIf='data.examStatus == "Scheduled" && data.status == "Approved"'>
+                      <a class="dropdown-item" (click)="getHallTicket(data)">Generate Hall Ticket</a>
+                    </li>
+                  </ul>
+                  <ul *ngIf='data.applicationType!="Initial"' class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <a class="dropdown-item" data-toggle="modal" data-target="#myModal"
+                      (click)="openViewForm(data)">View</a>
+                    </li>
+                    <li *ngIf='data.status == "Draft" || data.status == "Objected"'>
+                      <a class="dropdown-item" (click)="openEdit(data)">Edit</a>
+                    </li>
+                    <li *ngIf='data.status == "Draft" && data.paymentStatus.toLowerCase() != "paid"'>
+                      <a class="dropdown-item" (click)="discardDraftClick(data)">Discard</a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" *ngIf="!isApplicant">
+  <div class="page-restrict">
+    <div class="page-exist">
+      The page you were looking for does not exist.
+    </div>
+    <div class="restrict-message">
+      You have mistyped the address or the page may have moved.
+    </div>
+    <a routerLink="/adminDashboard">Go back to the Admin dashboard</a>
+  </div>
+</div>
+
+<!-- Schedule/Re-Schedule Form -->
+<app-schedule-reschedule [dashboard]="this" *ngIf="state.openreschedule"></app-schedule-reschedule>
+
+<!-- View Form -->
+<app-view-profile [parent]="this" *ngIf="state.openViewForm"></app-view-profile>

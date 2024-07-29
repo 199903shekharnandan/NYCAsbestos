@@ -1,0 +1,74 @@
+<div class="loader" *ngIf="isLoading">
+  <div class="loader-ring"></div>
+  <span class="loader-text-submit">{{loaderText}}</span>
+</div>
+<div class='exam-date-management'  *ngIf="this.isAdmin==true">
+  <div class='row examdata-header'>
+  <div class='col-sm-5'>
+    <div class="mt-1">
+          <label class="mt-1">Select Year : </label>
+          <p-calendar [(ngModel)]="dateValue" view="year" dateFormat="yy" (mousedown)="disabledDate()" (ngModelChange)="handleChangeyear(this.dateValue);"></p-calendar>
+        </div>
+
+      </div>
+      <div class='col-sm-5'>
+        <div class='exam-management-dropdown mt-1'>
+        <label class="mt-1" >Select Quarter : </label>
+        <select name="quter" id="Quter" class="form-select" [(ngModel)]="ddlQuarter" (change)="handleChangeyear(this.dateValue);">
+          <option value="" >Select Quater</option>
+          <option *ngFor="let item of MonthOptions" [ngValue]="item.value">{{item.label}}</option>
+      </select>
+        </div>
+        </div>
+        <div class='col-sm-2'>
+          <div class='slot-btn'>
+          <button class='btn btn-primary' id='savebtn' (click)="checkingLogedCount()">Save</button>
+          </div>
+      </div>
+  </div>
+  <div class='exam-slot'>
+    <div class='row exam-slot-header'>
+        <div class='col-sm-4'><svg height="20px" width="30px"  class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path></svg>Exam Date</div>
+        <div class='col-sm-4'><svg height="20px" width="30px" class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"></path></svg>10AM - 12PM</div>
+        <div class='col-sm-4'><svg height="20px" width="30px" class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79zM1 10.5h3v2H1zM11 .55h2V3.5h-2zm8.04 2.495l1.408 1.407-1.79 1.79-1.407-1.408zm-1.8 15.115l1.79 1.8 1.41-1.41-1.8-1.79zM20 10.5h3v2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1 4h2v2.95h-2zm-7.45-.96l1.41 1.41 1.79-1.8-1.41-1.41z"></path></svg>2PM - 4PM</div>
+    </div>
+    <div class='row exam-slot-details' *ngFor="let item of examDateArry let i = index">
+      <div class='col-sm-4 exam-date'>{{item.Date}}</div>
+      <div class='col-sm-4 exam-time'>
+        <input type="checkbox" id="slot1{{i}}{{item.Date}}" class="form-check-input"   value="10am-12pm" [checked]="item.slot1" [disabled]="item.isDisabled" (change)="handleChecked(item.Date,'10am-12pm',$event)">
+      </div>
+      <div class='col-sm-4 exam-time'>
+        <input type="checkbox" id="slot2{{i}}{{item.Date}}" class="form-check-input"  value="2pm-4pm" [checked]="item.slot2" [disabled]="item.isDisabled" (change)="handleChecked(item.Date,'2pm-4pm',$event)">
+      </div>
+  </div>
+    </div>
+  </div>
+  <div style="width: 90%; margin: auto;" *ngIf="this.isAdmin==false">
+    <div className='page-restrict'>
+      <div className='page-exist'>The page you were looking for does not exist.</div>
+      <div className='restrict-message'>You have mistyped the address or the page may have moved.</div>
+          <a  routerLink="/home">Go back to the homepage</a>
+      </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': popdisplay}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Exam date management</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div *ngFor="let item of CheckLoggedCount let i = index">
+            <div> On {{item.ExamDate}}  {{item.SlotTime}}, {{item.count}} applicant(s) have scheduled their exams. Do you still want to disable the slot(s)?</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="actionPopup()">Confirm</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
