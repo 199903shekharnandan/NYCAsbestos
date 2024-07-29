@@ -124,6 +124,7 @@ export class Constants {
 
   public static SupervisorAppendixF = "https://bectcustorageprod.blob.core.windows.net/asbestosstaticfilesprod/Supervisor-Appendix F.pdf";
 
+  //public static MasterKeyFunctionApp = "?code=H4NmOVibKBXTIWsJGbDQvsvIHADNVq4-n1ZOgzeqiO0-AzFuHP1xVw==";
   public static FunctionAppUrl = "https://nycasbestoscertfunc-prod.azurewebsites.net/api/";
   public static WebAppUrl = "https://nycasbestoscert.azurewebsites.net";
   //public static ProcessPreparedRetail = "https://a836-citypay.nyc.gov/citypay/retail/depatc/processPreparedRetail";
